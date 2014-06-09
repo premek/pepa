@@ -1,36 +1,44 @@
 
-require "map"
+require "maps"
+require "world"
 require "menu"
+require "character"
+require "npc"
 require "player"
 require "hud"
 
 
 require "state_playing"
 require "state_paused"
+require "state_picking"
 
 require "game"
 
 
+lg = love.graphics 
+
+
 love.filesystem.load("tiledmap.lua")()
-gCamX,gCamY = love.graphics.getWidth()/2, love.graphics.getHeight()/2
 
 love.mouse.setVisible(false)
 
 
 
 function love.load()
-  map:set("map01", 13, 10)
+  --world:set_map(maps.main, 13, 10) -- FIXME where
+  world:set_map(maps.berryland, 2,14) -- FIXME where
   
   bigFont = love.graphics.newFont("font/Bohemian typewriter.ttf", 60);
   textFont = love.graphics.newFont("font/Bohemian typewriter.ttf", 15);
 
-  player.load()
+  player:load()
+  npc:load()
 end
 
 
 
 function love.keypressed(key, unicode)
-	if(game.current_state.keypressed) then game.current_state:keypressed(key, unicode); end
+	if(game.state.keypressed) then game.state:keypressed(key, unicode); end
 
    if key == 'p' then
       game:toggle_pause()
@@ -44,17 +52,17 @@ function love.keypressed(key, unicode)
 end
 
 function love.draw()
-	if(game.current_state.draw) then game.current_state:draw(); end
+	if(game.state.draw) then game.state:draw(); end
 end
 
 
 
 function love.update(dt)
-   if(game.current_state.update) then game.current_state:update(dt); end
+   if(game.state.update) then game.state:update(dt); end
 end
 
 function love.focus(f)
-  game:pause( not f )
+--  game:pause( not f )
 end
 
 function love.quit()

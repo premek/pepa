@@ -23,7 +23,7 @@ function state_menu:keypressed(key, unicode)
         menu_execute()
    end
    if key == 'escape' then
-	game.current_state = game.state.playing; return
+	game:start(state_playing); return
    end
 
 
@@ -35,7 +35,7 @@ menu = {
 	selected = {x=1, y=1},
 	fullscreen = true,
 	items = {{
-		{label="Start", cb = function() game.current_state = game.state.playing end}, 
+		{label="Start", cb = function() game.state = game.states.playing end}, 
 		--{label="Start Multiplayer", cb = function() print ("Start") end}
 		},
 		{{label="Quit", cb = function() love.event.quit() end}}

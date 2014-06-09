@@ -1,15 +1,15 @@
 
 game = {}
-game.state = {
-	paused = state_paused,
-	menu = state_menu,
-	playing = state_playing,
-}
-game.current_state = game.state.playing -- TODO stack
+game.state = state_playing -- TODO stack
+
+function game:start(state) 
+  if(state.init) then state:init(); end
+  self.state = state
+end
 
 function game:pause(p) 
-	self.current_state = p and self.state.paused or self.state.playing
+	state_paused = p and self.start(state_paused) or self.start(state_playing)
 end
 function game:toggle_pause() 
-	self:pause(self.current_state ~= self.state.paused)
+	self:pause(self.state ~= state_paused)
 end
