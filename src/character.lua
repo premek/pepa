@@ -45,15 +45,16 @@ end
 
 function Character:say(t) 
 	self.msg.txt = t
+	self.msg.cur_len = 0
 end
 
 function Character:draw()
   love.graphics.setColor(255,255,255)
-  love.graphics.drawq(char, ch[self.facing.x][self.facing.y][self.anim_frame], self.act_x, self.act_y)
+  love.graphics.draw(char, ch[self.facing.x][self.facing.y][self.anim_frame], self.act_x, self.act_y)
 
   love.graphics.setColor(0,0,0)
   love.graphics.setFont(textFont);
-  love.graphics.print(string.sub(self.msg.txt, math.max(1,self.msg.cur_len - Character.msg.displayed_len), self.msg.cur_len), self.act_x+self.msg.offset_x, self.act_y+self.msg.offset_y) 
+  love.graphics.print(string.sub(self.msg.txt, math.max(1,self.msg.cur_len - self.msg.displayed_len), self.msg.cur_len), self.act_x+self.msg.offset_x, self.act_y+self.msg.offset_y) 
   --love.graphics.draw(img, top_left, 50, 50)
   -- v0.8:
   -- love.graphics.drawq(img, top_left, 50, 50)
@@ -67,11 +68,11 @@ function Character:update(dt)
    if p_dtotal >= 0.10 then
       p_dtotal = p_dtotal - 0.10
 
-if(Character.msg.txt ~= "") then
-Character.msg.cur_len = Character.msg.cur_len + 1 --FIXME
-if(Character.msg.cur_len > string.len(Character.msg.txt)+Character.msg.displayed_len) then -- time to read
-Character.msg.txt = ""
-Character.msg.cur_len = 0
+if(self.msg.txt ~= "") then
+self.msg.cur_len = self.msg.cur_len + 1 --FIXME
+if(self.msg.cur_len > string.len(self.msg.txt)+self.msg.displayed_len) then -- time to read
+self.msg.txt = ""
+self.msg.cur_len = 0
 end
 end
 end
@@ -80,8 +81,8 @@ end
 function Character:warp(x,y)
     self.grid_x = x
     self.grid_y = y
-    self.act_x = x * world.tile.w - world.tile.w + Character.offset.x
-    self.act_y = y * world.tile.h - world.tile.h + Character.offset.y
+    self.act_x = x * world.tile.w - world.tile.w + self.offset.x
+    self.act_y = y * world.tile.h - world.tile.h + self.offset.y
 end
 
 

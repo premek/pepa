@@ -1,7 +1,7 @@
 function love.conf(t)
     t.window = t.window or t.screen
 
-    t.version = "0.8.0"                -- The LÖVE version this game was made for (string)
+    t.version = "0.9.1"                -- The LÖVE version this game was made for (string)
     t.window.title = "Pepa"        -- The window title (string)
     t.title = "Pepa"        -- The window title (string)
     t.window.fullscreen = false        -- Enable fullscreen (boolean)
