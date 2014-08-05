@@ -8,6 +8,8 @@ end
 maps = {
   main = {
     filename = "map01",
+    objects = {
+    },
     actions = {
       {4, 9, function() 
         world:set_map(maps.inn, 8, 10)
@@ -21,17 +23,18 @@ maps = {
   },
   berryland = {
     filename = "map02",
+    objects = {
+    },
     actions = {
-      {4, 9, function() 
-        world:set_map(maps.map03, 8, 11)
-        player:say("Good morning, inn keeper")
-      end },
       {1, 14, goto_fn("main", 20, 14)},
       {6, 14, function() game:start(state_picking) end},
     }
   },
   inn = {
     filename = "map03",
+    objects = {
+        npc,
+    },
     actions = {
       {8, 11, goto_fn("main", 4, 10)},
       {9, 11, goto_fn("main", 4, 10)},

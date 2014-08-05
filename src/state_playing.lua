@@ -5,7 +5,7 @@ love.graphics.setColor(255,255,255)
 
   world:draw()
  player:draw()
- npc:draw()
+-- npc:draw()
 hud:draw()
 
 end
@@ -58,7 +58,7 @@ local oldx = player.act_x
 
 
 if(player.act_y ~=oldy or player.act_x ~= oldx) then 
-player.anim_frame = player.anim_frame % #ch[0][1] + 1 -- FIXME
+player.anim_frame = player.anim_frame % #player.ch[0][1] + 1 -- FIXME
 else 
 player.anim_frame = 1
 end

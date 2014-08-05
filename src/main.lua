@@ -1,10 +1,10 @@
+require "character"
+require "npc"
+require "player"
 
 require "maps"
 require "world"
 require "menu"
-require "character"
-require "npc"
-require "player"
 require "hud"
 
 
@@ -32,7 +32,7 @@ function love.load()
   textFont = love.graphics.newFont("font/Bohemian typewriter.ttf", 15);
 
   player:load()
-  npc:load()
+ -- npc:load()
 end
 
 

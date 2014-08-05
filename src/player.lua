@@ -1,1 +1,1 @@
-player = Character:new{img = "chars"}
+player = Character:new("chars")

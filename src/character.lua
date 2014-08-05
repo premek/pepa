@@ -1,41 +1,39 @@
-Character = {
-        grid_x = 1,
-        grid_y = 1,
-        act_x = 1,
-        act_y = 1,
-	offset = {x=0, y=-20},
-	facing = {x=0,y=1},
-	anim_frame = 1,
-        speed = 5,
-	img = "chars",
-	---
+Character = {}
+Character.__index = Character
 
-	msg = {txt="Nazdar!",cur_len=0, displayed_len=15, offset_x = 35, offset_y = 10},
+function Character:new (img)
+	local s = setmetatable({}, Character)
+        s.grid_x = 1
+        s.grid_y = 1
+        s.act_x = 1
+        s.act_y = 1
+	s.offset = {x=0, y=-20}
+	s.facing = {x=0,y=1}
+	s.anim_frame = 1
+        s.speed = 5
+	s.img = img or "npc1"
+	s.msg = {txt="Nazdar!",cur_len=0, displayed_len=15, offset_x = 35, offset_y = 10}
 	
-	life = 100,
-	berries = 0,
-	cash = 100,
-	laf = 100,
-}
+	s.life = 100
+	s.berries = 0
+	s.cash = 100
+	s.laf = 100
 
-function Character:new (o)
-  o = o or {}
-  setmetatable(o, self)
-  self.__index = self
-  return o
+  return s
 end
 
 
 function Character:load ()
 
-  char = love.graphics.newImage( "img/".. self.img .. ".png" )
-  chq = function(x,y) return love.graphics.newQuad(x,y, 36, 48, 113, 210); end
-  ch = {[-1]={}, [0]={}, [1]={}}
+  self.char = love.graphics.newImage( "img/".. self.img .. ".png" )
+  local chq = function(x,y) return love.graphics.newQuad(x,y, 36, 48, 113, 210); end
+  self.ch = {[-1]={}, [0]={}, [1]={}}
   -- stand, step1, step2
-  ch[0][-1] = {chq(40,8), chq(4,8), chq(40,8), chq(76,8)}
-  ch[1][0] = {chq(40,56), chq(4,56), chq(40,56), chq(76,56)}
-  ch[0][1] = {chq(40,104), chq(4,104), chq(40,104), chq(76,104)}
-  ch[-1][0] = {chq(40,153), chq(4,153), chq(40,153), chq(76,153)}
+  self.ch[0][-1] = {chq(40,8), chq(4,8), chq(40,8), chq(76,8)}
+  self.ch[1][0] = {chq(40,56), chq(4,56), chq(40,56), chq(76,56)}
+  self.ch[0][1] = {chq(40,104), chq(4,104), chq(40,104), chq(76,104)}
+  self.ch[-1][0] = {chq(40,153), chq(4,153), chq(40,153), chq(76,153)}
+  print (self.img .. " loaded")
 end
 
 function Character:face(x,y) 
@@ -50,7 +48,7 @@ end
 
 function Character:draw()
   love.graphics.setColor(255,255,255)
-  love.graphics.draw(char, ch[self.facing.x][self.facing.y][self.anim_frame], self.act_x, self.act_y)
+  love.graphics.draw(self.char, self.ch[self.facing.x][self.facing.y][self.anim_frame], self.act_x, self.act_y)
 
   love.graphics.setColor(0,0,0)
   love.graphics.setFont(textFont);
