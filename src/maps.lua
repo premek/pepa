@@ -3,7 +3,7 @@ function goto_fn(map, x, y)
     world:set_map(maps[map], x, y)
   end
 end
-    
+
 
 maps = {
   main = {
@@ -11,7 +11,7 @@ maps = {
     objects = {
     },
     actions = {
-      {4, 9, function() 
+      {4, 9, function()
         world:set_map(maps.inn, 8, 10)
         player:say("Good morning, inn keeper")
       end },
@@ -40,7 +40,7 @@ maps = {
       {9, 11, goto_fn("main", 4, 10)},
       {9, 6, function() player:say("Ahh..."); end},
       {12, 6, function() player:say("Halooo!"); end},
+      {10, 6, function() player.inventory.clothes = 1; player.laf = player.laf+40 end},
     }
   },
 }
-

@@ -8,20 +8,20 @@ state_picking = {
 	berries = {},
 }
 
-function state_picking:init () 
+function state_picking:init ()
   self.time = 10 -- current remaining time
   self.cursor = 0
   for i=1,10 do self.berries[math.random(0,99)] = true end
 end
 
 function state_picking:draw ()
-  
+
 hud:draw()
 
 
 love.graphics.setColor(255,255,255)
 
-    
+
  love.graphics.setFont(bigFont);
 
 -- love.graphics.setColor(0,0,0)
@@ -34,24 +34,24 @@ love.graphics.setColor(255,255,255)
   end
 
   for a=0,99 do
-      self:rect(a, "line") 
+      self:rect(a, "line")
   end
-      
+
   self:rect(math.floor(self.cursor), "fill")
 
 
 end
 
-function state_picking:ctox(c) 
-  return (c%10 * (math.floor(c%20/10)*(-2)+1) + math.floor(c%20/10)*9) * self.size+self.offsetx 
+function state_picking:ctox(c)
+  return (c%10 * (math.floor(c%20/10)*(-2)+1) + math.floor(c%20/10)*9) * self.size+self.offsetx
 end
-function state_picking:ctoy(c) 
-  return math.floor(c/10)*self.size+self.offsety 
+function state_picking:ctoy(c)
+  return math.floor(c/10)*self.size+self.offsety
 end
 function state_picking:rect(c,mode)
  love.graphics.setFont(textFont);
 	lg.printf(c, self:ctox(c), self:ctoy(c), self.size, "center")
-  lg.rectangle(mode, self:ctox(c), self:ctoy(c), self.size, self.size) 
+  lg.rectangle(mode, self:ctox(c), self:ctoy(c), self.size, self.size)
 end
 
 
@@ -73,5 +73,5 @@ end
 
 function state_picking:pick(pos)
   self.berries[pos] = nil
-  player.berries = player.berries + 1;
+  player.inventory.berries = player.inventory.berries + 1;
 end

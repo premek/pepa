@@ -1,3 +1,4 @@
+require "inventory"
 require "character"
 require "npc"
 require "player"
@@ -15,7 +16,7 @@ require "state_picking"
 require "game"
 
 
-lg = love.graphics 
+lg = love.graphics
 
 
 love.filesystem.load("tiledmap.lua")()
@@ -27,7 +28,7 @@ love.mouse.setVisible(false)
 function love.load()
   --world:set_map(maps.main, 13, 10) -- FIXME where
   world:set_map(maps.berryland, 2,14) -- FIXME where
-  
+
   bigFont = love.graphics.newFont("font/Bohemian typewriter.ttf", 60);
   textFont = love.graphics.newFont("font/Bohemian typewriter.ttf", 15);
 
@@ -45,7 +46,7 @@ function love.keypressed(key, unicode)
    end
 
    if key == 'q' then
-	love.event.quit() 
+	love.event.quit()
    end
 
 
@@ -68,5 +69,3 @@ end
 function love.quit()
   print("Thanks for playing! Come back soon!")
 end
-
-

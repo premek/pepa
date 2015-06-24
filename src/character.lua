@@ -13,11 +13,11 @@ function Character:new (img)
         s.speed = 5
 	s.img = img or "npc1"
 	s.msg = {txt="Nazdar!",cur_len=0, displayed_len=15, offset_x = 35, offset_y = 10}
-	
+
 	s.life = 100
-	s.berries = 0
 	s.cash = 100
-	s.laf = 100
+	s.laf = 50
+	s.inventory = inventory -- FIXME individual inventory for each character
 
   return s
 end
@@ -25,7 +25,10 @@ end
 
 function Character:load ()
 
-  self.char = love.graphics.newImage( "img/".. self.img .. ".png" )
+	self.char = love.graphics.newImage( "img/".. self.img .. ".png" )
+	-- FIXME
+	self.charnaked = love.graphics.newImage( "img/chars-naked.png" )
+
   local chq = function(x,y) return love.graphics.newQuad(x,y, 36, 48, 113, 210); end
   self.ch = {[-1]={}, [0]={}, [1]={}}
   -- stand, step1, step2
@@ -33,26 +36,26 @@ function Character:load ()
   self.ch[1][0] = {chq(40,56), chq(4,56), chq(40,56), chq(76,56)}
   self.ch[0][1] = {chq(40,104), chq(4,104), chq(40,104), chq(76,104)}
   self.ch[-1][0] = {chq(40,153), chq(4,153), chq(40,153), chq(76,153)}
-  print (self.img .. " loaded")
 end
 
-function Character:face(x,y) 
+function Character:face(x,y)
 	self.facing.x=x
 	self.facing.y=y
 end
 
-function Character:say(t) 
+function Character:say(t)
 	self.msg.txt = t
 	self.msg.cur_len = 0
 end
 
 function Character:draw()
   love.graphics.setColor(255,255,255)
-  love.graphics.draw(self.char, self.ch[self.facing.x][self.facing.y][self.anim_frame], self.act_x, self.act_y)
+	local variant = self.inventory.clothes>0 and self.char or self.charnaked;
+  love.graphics.draw(variant, self.ch[self.facing.x][self.facing.y][self.anim_frame], self.act_x, self.act_y)
 
   love.graphics.setColor(0,0,0)
   love.graphics.setFont(textFont);
-  love.graphics.print(string.sub(self.msg.txt, math.max(1,self.msg.cur_len - self.msg.displayed_len), self.msg.cur_len), self.act_x+self.msg.offset_x, self.act_y+self.msg.offset_y) 
+  love.graphics.print(string.sub(self.msg.txt, math.max(1,self.msg.cur_len - self.msg.displayed_len), self.msg.cur_len), self.act_x+self.msg.offset_x, self.act_y+self.msg.offset_y)
   --love.graphics.draw(img, top_left, 50, 50)
   -- v0.8:
   -- love.graphics.drawq(img, top_left, 50, 50)
@@ -94,7 +97,7 @@ function Character:step(x, y)
 
             self:face(x, y)
 
-    if newy >0 and newy <= TiledMap_GetMapH() 
+    if newy >0 and newy <= TiledMap_GetMapH()
        and newx >0 and newx <= TiledMap_GetMapW()
        and TiledMap_GetMapTile(newx-1,newy-1,map_unwalkable_id)==0
        then
@@ -110,4 +113,3 @@ function Character:step(x, y)
   world:call_player_actions(newx, newy)
 
 end
-
