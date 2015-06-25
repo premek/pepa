@@ -1,6 +1,6 @@
 state_playing = {}
 
-function state_playing:draw () 
+function state_playing:draw ()
 love.graphics.setColor(255,255,255)
 
   world:draw()
@@ -12,7 +12,8 @@ end
 
 function state_playing:keypressed(key, unicode)
     if key == 'escape' then
-    game:start(state_menu)
+      state_menu.menu = mainmenu
+      game:start(state_menu)
    end
 
 
@@ -27,7 +28,7 @@ function state_playing:keypressed(key, unicode)
    if love.keyboard.isDown('down') then
         player:step(0, 1)
    end
-   
+
    if love.keyboard.isDown('left') then
         player:step(-1, 0)
    end
@@ -57,9 +58,9 @@ local oldx = player.act_x
       dtotal = dtotal - 0.2   -- reduce our timer by a second, but don't discard the change... what if our framerate is 2/3 of a second?
 
 
-if(player.act_y ~=oldy or player.act_x ~= oldx) then 
+if(player.act_y ~=oldy or player.act_x ~= oldx) then
 player.anim_frame = player.anim_frame % #player.ch[0][1] + 1 -- FIXME
-else 
+else
 player.anim_frame = 1
 end
 

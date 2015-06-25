@@ -1,25 +1,27 @@
-Character = {}
-Character.__index = Character
+Character = {
+	facing = {x=0,y=1},
+	speed = 5,
+	}
 
-function Character:new (img)
-	local s = setmetatable({}, Character)
-        s.grid_x = 1
-        s.grid_y = 1
-        s.act_x = 1
-        s.act_y = 1
-	s.offset = {x=0, y=-20}
-	s.facing = {x=0,y=1}
-	s.anim_frame = 1
-        s.speed = 5
-	s.img = img or "npc1"
-	s.msg = {txt="Nazdar!",cur_len=0, displayed_len=15, offset_x = 35, offset_y = 10}
+function Character:new (o)
+	o = o or {}
+	print("creating character", o)
+	setmetatable(o, self)
+	self.__index = self
 
-	s.life = 100
-	s.cash = 100
-	s.laf = 50
-	s.inventory = inventory -- FIXME individual inventory for each character
+  o.grid_x = 1
+  o.grid_y = 1
+  o.act_x = 1
+  o.act_y = 1
+	o.offset = {x=0, y=-20}
+	o.anim_frame = 1
+	--o.img = o.img or "npc1"
+	o.msg = {txt="Nazdar!",cur_len=0, displayed_len=15, offset_x = 35, offset_y = 10}
+	o.life = 100
+	o.laf = 50
+	o.inventory = inventory -- FIXME individual inventory for each character
 
-  return s
+  return o
 end
 
 

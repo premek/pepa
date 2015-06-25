@@ -26,10 +26,9 @@ function world:call_player_actions(x, y)
   end
 end
 
-function world:draw () 
+function world:draw ()
   love.graphics.setColor(255,255,255)
   TiledMap_DrawNearCam(self.cam.x, self.cam.y)
   for i,o in pairs(self.current_map.objects) do o:draw(); end
-  
-end
 
+end

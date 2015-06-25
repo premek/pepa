@@ -1,7 +1,11 @@
+require "util"
+
 require "inventory"
 require "character"
 require "npc"
 require "player"
+
+require "mainmenu"
 
 require "maps"
 require "world"
@@ -10,6 +14,7 @@ require "hud"
 
 
 require "state_playing"
+require "state_menu"
 require "state_paused"
 require "state_picking"
 
@@ -27,7 +32,7 @@ love.mouse.setVisible(false)
 
 function love.load()
   --world:set_map(maps.main, 13, 10) -- FIXME where
-  world:set_map(maps.berryland, 2,14) -- FIXME where
+  world:set_map(maps.main, 2,10) -- FIXME where
 
   bigFont = love.graphics.newFont("font/Bohemian typewriter.ttf", 60);
   textFont = love.graphics.newFont("font/Bohemian typewriter.ttf", 15);

@@ -1,4 +1,24 @@
-inventory = {clothes=0, beard=1, berries=3}
+inventory = {clothes=0, beard=1, berries=3, monies=100}
+
+function inventory:add(thing, amount)
+  amount = amount or 1
+  if(self[thing]==nil) then self[thing] = 0; end
+
+  if(self[thing] + amount < 0) then
+    print("negative amount of things", thing, amount, self[thing], self[thing]+amount)
+    return false
+  end
+
+  print("adding to inventory", thing, amount, self[thing], self[thing]+amount)
+  self[thing] = self[thing] + amount
+  return true
+end
+
+function inventory:remove(thing, amount)
+  amount = amount or 1
+  return self:add(thing, -amount)
+end
+
 
 function inventory:draw()
 

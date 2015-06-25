@@ -4,6 +4,24 @@ function goto_fn(map, x, y)
   end
 end
 
+-- TODO where to
+vendingMachineMenu = {
+	selected = {x=1, y=1},
+	items = {{
+		{label="Buy a drink", cb = function()
+      game:start(state_playing)
+      if(player.inventory:remove("monies", 10)) then
+        player.inventory:add("drink")
+        player:say("Thanks, machine")
+      else
+        player:say("Na to nemam")
+      end
+    end},
+		--{label="Start Multiplayer", cb = function() print ("Start") end}
+		},
+		{{label="Leave", cb = function() game:start(state_playing);player:say("Goodbye, machine"); end}}
+	}
+}
 
 maps = {
   main = {
@@ -38,7 +56,7 @@ maps = {
     actions = {
       {8, 11, goto_fn("main", 4, 10)},
       {9, 11, goto_fn("main", 4, 10)},
-      {9, 6, function() player:say("Ahh..."); end},
+      {9, 6, function() state_menu.menu = vendingMachineMenu; game:start(state_menu); end},
       {12, 6, function() player:say("Halooo!"); end},
       {10, 6, function() player.inventory.clothes = 1; player.laf = player.laf+40 end},
     }

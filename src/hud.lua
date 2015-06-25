@@ -6,7 +6,6 @@ function hud:draw()
 
 
  local s = player.life.."% <3\n" ..
-	"$ " .. player.cash .. "\n" ..
 	player.laf .. " % L&F"
 
  love.graphics.setFont(textFont);
