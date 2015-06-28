@@ -15,26 +15,19 @@ function state_picking:init ()
 end
 
 function state_picking:draw ()
+	hud:draw()
 
-hud:draw()
-
-
-love.graphics.setColor(255,255,255)
-
-
- love.graphics.setFont(bigFont);
-
--- love.graphics.setColor(0,0,0)
- local p = lg.getWidth()
+	love.graphics.setColor(255,255,255)
+	love.graphics.setFont(bigFont);
+	local p = lg.getWidth()
 	lg.printf(math.ceil(self.time) .. " s", p*0, 45, p*1, "center")
-	--lg.printf("B: " .. player.berries,      p*3, 45, p*2, "center")
 
   for k,v in pairs(self.berries) do
-      self:rect(k, "fill")
+  	self:rect(k, "fill")
   end
 
   for a=0,99 do
-      self:rect(a, "line")
+    self:rect(a, "line")
   end
 
   self:rect(math.floor(self.cursor), "fill")
@@ -49,17 +42,16 @@ function state_picking:ctoy(c)
   return math.floor(c/10)*self.size+self.offsety
 end
 function state_picking:rect(c,mode)
- love.graphics.setFont(textFont);
+  love.graphics.setFont(textFont);
 	lg.printf(c, self:ctox(c), self:ctoy(c), self.size, "center")
   lg.rectangle(mode, self:ctox(c), self:ctoy(c), self.size, self.size)
 end
 
 
 function state_picking:keypressed(key, unicode)
-
-   if key == ' ' then
-     if self.berries[math.floor(self.cursor)] then self:pick(math.floor(self.cursor)) end
-   end
+  if key == ' ' then
+    if self.berries[math.floor(self.cursor)] then self:pick(math.floor(self.cursor)) end
+  end
 
 end
 
