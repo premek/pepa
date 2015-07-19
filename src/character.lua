@@ -1,7 +1,8 @@
 Character = {
-	facing = {x=0,y=1},
-	speed = 5,
-	}
+  facing = {x=0,y=1},
+  speed = 5,
+  dirtratio = 0.04, -- TODO realtime or "turn based" over the night?
+}
 
 function Character:new (o)
 	o = o or {}
@@ -11,14 +12,13 @@ function Character:new (o)
 
   o.grid_x = 1
   o.grid_y = 1
-  o.act_x = 1
-  o.act_y = 1
+ -- o.act_x = 1
+ -- o.act_y = 1
 	o.offset = {x=0, y=-20}
 	o.anim_frame = 1
 	--o.img = o.img or "npc1"
-	o.msg = {txt="Nazdar!",cur_len=0, displayed_len=15, offset_x = 35, offset_y = 10}
-	o.life = 100
-	o.laf = 50
+	o.msg = {txt="",cur_len=0, displayed_len=15, offset_x = 35, offset_y = 10}
+        o.props = {life = 100, laf=50}
 	o.inventory = inventory -- FIXME individual inventory for each character
 
   return o
@@ -63,22 +63,44 @@ function Character:draw()
   -- love.graphics.drawq(img, top_left, 50, 50)
 end
 
+--FIXME globals?
 p_dtotal = 0
+beardtime = 0
+newdirt = 0
 
 function Character:update(dt)
-	p_dtotal = p_dtotal + dt -- TODO nejaky helper / util
+  p_dtotal = p_dtotal + dt -- TODO nejaky helper / util
+  if p_dtotal >= 0.10 then
+    p_dtotal = p_dtotal - 0.10
+    if(self.msg.txt ~= "") then
+      self.msg.cur_len = self.msg.cur_len + 1 --FIXME
+      if(self.msg.cur_len > string.len(self.msg.txt)+self.msg.displayed_len) then -- time to read
+        self.msg.txt = ""
+        self.msg.cur_len = 0
+      end
+    end
+  end
 
-   if p_dtotal >= 0.10 then
-      p_dtotal = p_dtotal - 0.10
+  beardtime = beardtime + dt -- TODO nejaky helper / util
+    if beardtime >= 90 then
+      if(not self.inventory:contains("homeless_beard")) then 
+        self.inventory:remove("elegant_beard")
+        self.inventory:add("homeless_beard")
+      end
+    else if beardtime >= 30 then
+      if(not self.inventory:contains("elegant_beard")) then self.inventory:add("elegant_beard"); end
+    end
+  end
 
-if(self.msg.txt ~= "") then
-self.msg.cur_len = self.msg.cur_len + 1 --FIXME
-if(self.msg.cur_len > string.len(self.msg.txt)+self.msg.displayed_len) then -- time to read
-self.msg.txt = ""
-self.msg.cur_len = 0
-end
-end
-end
+  newdirt = newdirt + dt*self.dirtratio
+  if newdirt > 1 then newdirt = 0; self.inventory:add("dirt"); end
+
+  self.props.laf = math.max(0, math.min(100, 50 
+    +10*self.inventory.elegant_beard 
+    -20*self.inventory.dirt
+    -30*self.inventory.homeless_beard
+    +40*self.inventory.clothes
+  ))
 end
 
 function Character:warp(x,y)
@@ -91,7 +113,8 @@ end
 
 
 function Character:step(x, y)
-
+	local oldx = self.grid_x
+	local oldy = self.grid_y
 	local newx = self.grid_x + x
 	local newy = self.grid_y + y
 
@@ -112,6 +135,6 @@ function Character:step(x, y)
   --         action(newx, newy)
 --end
 
-  world:call_player_actions(newx, newy)
+  world:call_player_actions(newx, newy, oldx, oldy)
 
 end

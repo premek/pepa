@@ -1,10 +1,3 @@
-function goto_fn(map, x, y)
-  return function()
-    world:set_map(maps[map], x, y)
-  end
-end
-
--- TODO where to
 vendingMachineMenu = {
 	selected = {x=1, y=1},
 	items = {{
@@ -18,10 +11,39 @@ vendingMachineMenu = {
       end
     end},
 		--{label="Start Multiplayer", cb = function() print ("Start") end}
+		},{
+		{label="Shave me", cb = function()
+      game:start(state_playing)
+      if(player.inventory:remove("monies", 10)) then
+        if(player.inventory:remove("homeless_beard") or player.inventory:remove("elegant_beard")) then beardtime = 0; end
+        player:say("Tak...")
+      else
+        player:say("Na to nemam")
+      end
+    end},
+		--{label="Start Multiplayer", cb = function() print ("Start") end}
 		},
 		{{label="Leave", cb = function() game:start(state_playing);player:say("Goodbye, machine"); end}}
 	}
 }
+bankToiletMenu = {
+  selected = {x=1, y=1},
+  items = {
+    {{label="Napit se", cb = function() player.props.life = player.props.life + 2 ; game:start(state_playing); end}},
+    {{label="Umyt si oblicej", cb = function() player.inventory:remove("dirt"); game:start(state_playing); end}},
+    {{label="Cely se umyt", cb = function() player.inventory:remove("clothes"); game:start(state_playing); end}},
+    {{label="Odejit", cb = function() game:start(state_playing);end}},
+  }
+}
+
+
+bankCheck = function(x,y,prevx,prevy) 
+  -- only when going from outside (from bottom)
+  if prevy > y and player.props.laf < 50 then 
+    player:say("Jsem moc spinavy, do banky nemuzu"); 
+    player:step(0,1); 
+  end 
+end
 
 maps = {
   main = {
@@ -29,36 +51,42 @@ maps = {
     objects = {
     },
     actions = {
-      {4, 9, function()
-        world:set_map(maps.inn, 8, 10)
-        player:say("Good morning, inn keeper")
-      end },
-      {20, 14, goto_fn("berryland", 1, 14)},
+      {4, 9, function() world:set_map(maps.inn, 8, 10); player:say("Good morning, inn keeper"); end},
       {4, 15, function() player:say("Neumim plavat... nebo nechci."); end},
+      {15, 3, function() player:say("Tuk tuk"); end}, -- FIXME unicode chars not working?
+      {2, 4, function() player:say("Co je asi v tom sudu?"); end}, -- FIXME unicode chars not working?
+      {4, 4, function() world:set_map(maps.bank, 8, 13); end}, -- FIXME unicode chars not working?
       {10, 8, function() player:say("Kamen, kamen, kamen, kamen, kamen, ..."); end},
+      {18, 14, function() game:start(state_picking) end},
 
-    }
-  },
-  berryland = {
-    filename = "map02",
-    objects = {
-    },
-    actions = {
-      {1, 14, goto_fn("main", 20, 14)},
-      {6, 14, function() game:start(state_picking) end},
     }
   },
   inn = {
     filename = "map03",
     objects = {
-        npc,
+        npc.businessman,
     },
     actions = {
-      {8, 11, goto_fn("main", 4, 10)},
-      {9, 11, goto_fn("main", 4, 10)},
+      {8, 11, function() world:set_map(maps.main, 4, 10); end},
+      {9, 11, function() world:set_map(maps.main, 4, 10); end},
       {9, 6, function() state_menu.menu = vendingMachineMenu; game:start(state_menu); end},
       {12, 6, function() player:say("Halooo!"); end},
-      {10, 6, function() player.inventory.clothes = 1; player.laf = player.laf+40 end},
+      {10, 6, function() player.inventory.clothes = 1; end},
+    }
+  },
+  bank = {
+    filename = "map04",
+    objects = {npc.banker1, npc.banker2, npc.banker3, npc.banksecurity},
+    actions = {
+      {16,11, function() player:say("Se mi nechce..."); end},
+      {18,11, function() player:say("Ted nechci...       a navic tady ani nejsou dvere"); end},
+      {6,  7, function() print(npc.banksecurity); npc.banksecurity:say("Nelezte tam, vidim Vas!"); end}, -- FIXME - not working
+      {13, 11, function() state_menu.menu = bankToiletMenu; game:start(state_menu); end},
+      {14, 11, function() state_menu.menu = bankToiletMenu; game:start(state_menu); end},
+      {8, 11, bankCheck},
+      {9, 11, bankCheck},
+      {8, 15, function() world:set_map(maps.main, 4, 5); end},
+      {9, 15, function() world:set_map(maps.main, 4, 5); end},
     }
   },
 }

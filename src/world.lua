@@ -17,11 +17,11 @@ function world:set_map(map, px, py)
 end
 
 -- TODO nebo rovnou nejak primo at se pokazde neprohledava vsechno?
-function world:call_player_actions(x, y)
+function world:call_player_actions(x, y, previousx, previousy)
   for k,a in ipairs(self.current_map.actions) do
     if x==a[1] and y == a[2] then
-      print ("calling action", self.current_map.filename, x, y)
-      a[3]()
+      print ("calling action", self.current_map.filename, x, y, previousx, previousy)
+      a[3](x, y, previousx, previousy)
     end
   end
 end

@@ -5,8 +5,8 @@ function hud:draw()
   inventory:draw()
 
 
- local s = player.life.." % health\n" ..
-	player.laf .. " % appearance"
+ local s = player.props.life.." % health\n" ..
+	player.props.laf .. " % appearance"
 
  love.graphics.setFont(textFont);
 

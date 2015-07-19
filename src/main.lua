@@ -32,7 +32,7 @@ love.mouse.setVisible(false)
 
 function love.load()
   --world:set_map(maps.main, 13, 10) -- FIXME where
-  world:set_map(maps.main, 2,10) -- FIXME where
+  world:set_map(maps.bank, 8,13) -- FIXME where
 
   bigFont = love.graphics.newFont("font/Bohemian typewriter.ttf", 60);
   textFont = love.graphics.newFont("font/Bohemian typewriter.ttf", 15);

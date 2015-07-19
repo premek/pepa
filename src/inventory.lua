@@ -1,4 +1,4 @@
-inventory = {clothes=0, beard=1, berries=3, monies=100}
+inventory = {clothes=0, dirt = 0, elegant_beard = 0, homeless_beard=0, berries=3, monies=100}
 
 function inventory:add(thing, amount)
   amount = amount or 1
@@ -18,6 +18,12 @@ function inventory:remove(thing, amount)
   amount = amount or 1
   return self:add(thing, -amount)
 end
+
+function inventory:contains(thing, amount)
+  amount = amount or 1
+  return self[thing] and self[thing] >= amount;
+end
+
 
 
 function inventory:draw()
