@@ -1,4 +1,5 @@
 require "util"
+require "lang"
 
 require "inventory"
 require "character"

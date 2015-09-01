@@ -32,12 +32,12 @@ function inventory:draw()
  love.graphics.setColor(60,60,60)
 
  local width = 200
- local s = "Inventory:\n----------\n"
+ local s = t("inventory") .. "\n----------\n"
 
  for item, amount in pairs(self) do
    if(type(amount) == "number" and amount > 0) then
      if(amount>1) then s= s .. amount .. "x " end
-     s = s .. item .. "\n"
+     s = s .. t(item, amount) .. "\n"
    end
  end
 
