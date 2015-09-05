@@ -7,7 +7,7 @@ for k,v in pairs(languages) do
       label=v._name,
 		  cb = function()
 				lang_settings.current = v
-				game:start(state_playing)
+				game_state_pop()
 			end
     }})
 end
@@ -22,17 +22,18 @@ mainmenu_options = {
     }},
     {{
         label="Option2",
-        cb = function() game:start(state_playing) end,
+        cb = function()  end,
     }}}
 }
 
 
 mainmenu = {
 	selected = {x=1, y=1},
+	fullscreen = true,
 	items = {{
 		{
       label="Start",
-      cb = function() game:start(state_playing) end,
+      cb = function() game_state_pop() end,
     },
 		--{label="Start Multiplayer", cb = function() print ("Start") end}
     },{

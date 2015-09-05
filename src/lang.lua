@@ -1,4 +1,3 @@
-require "lib/require"
 languages = require.tree("lang")
 
 lang_settings = {

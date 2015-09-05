@@ -1,7 +1,7 @@
 Character = {
   facing = {x=0,y=1},
   speed = 5,
-  dirtratio = 0.04, -- TODO realtime or "turn based" over the night?
+  dirtratio = 0.004, -- TODO realtime or "turn based" over the night?
 }
 
 function Character:new (o)
@@ -83,7 +83,7 @@ function Character:update(dt)
 
   beardtime = beardtime + dt -- TODO nejaky helper / util
     if beardtime >= 90 then
-      if(not self.inventory:contains("homeless_beard")) then 
+      if(not self.inventory:contains("homeless_beard")) then
         self.inventory:remove("elegant_beard")
         self.inventory:add("homeless_beard")
       end
@@ -95,8 +95,8 @@ function Character:update(dt)
   newdirt = newdirt + dt*self.dirtratio
   if newdirt > 1 then newdirt = 0; self.inventory:add("dirt"); end
 
-  self.props.laf = math.max(0, math.min(100, 50 
-    +10*self.inventory.elegant_beard 
+  self.props.laf = math.max(0, math.min(100, 50
+    +10*self.inventory.elegant_beard
     -20*self.inventory.dirt
     -30*self.inventory.homeless_beard
     +40*self.inventory.clothes

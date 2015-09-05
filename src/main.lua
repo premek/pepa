@@ -1,3 +1,4 @@
+require "lib/require"
 require "util"
 require "lang"
 
@@ -13,13 +14,17 @@ require "world"
 require "menu"
 require "hud"
 
+require.tree("state")
 
-require "state_playing"
-require "state_menu"
-require "state_paused"
-require "state_picking"
-
-require "game"
+game_state = {state_playing, state_picking_mouse}
+game_state_push = function (state)
+  if state.init then state:init() end
+  table.insert(game_state, state)
+end
+game_state_pop = function ()
+  local state = table.remove(game_state)
+  if state.quit then state:quit() end
+end
 
 
 lg = love.graphics
@@ -29,11 +34,12 @@ love.filesystem.load("tiledmap.lua")()
 
 love.mouse.setVisible(false)
 
-
+-----------XXXXXXXXXXXX
+state_picking_mouse:init()
 
 function love.load()
-  --world:set_map(maps.main, 13, 10) -- FIXME where
-  world:set_map(maps.bank, 8,13) -- FIXME where
+  world:set_map(maps.main, 13, 10) -- FIXME where
+  --world:set_map(maps.bank, 8,13) -- FIXME where
 
   bigFont = love.graphics.newFont("font/Bohemian typewriter.ttf", 60);
   textFont = love.graphics.newFont("font/Bohemian typewriter.ttf", 15);
@@ -45,27 +51,42 @@ end
 
 
 function love.keypressed(key, unicode)
-	if(game.state.keypressed) then game.state:keypressed(key, unicode); end
+  for i=#game_state,1,-1 do
+    if(game_state[i].keypressed) then
+      if not game_state[i]:keypressed(key, unicode) then return end
+    end
+  end
+end
 
-   if key == 'p' then
-      game:toggle_pause()
-   end
-
-   if key == 'q' then
-	love.event.quit()
-   end
-
-
+function love.mousepressed(x, y, button)
+    for i=#game_state,1,-1 do
+    if(game_state[i].mousepressed) then
+      if not game_state[i]:mousepressed(x, y, button) then return end
+    end
+  end
 end
 
 function love.draw()
-	if(game.state.draw) then game.state:draw(); end
+  -- if one of the states is fullscreen, draw only from that one upwards
+  local from = 1
+  for i=#game_state,1,-1 do
+    if(game_state[i].fullscreen) then from = i end
+  end
+  for i=from, #game_state do
+    if(game_state[i].draw) then game_state[i]:draw() end
+  end
 end
 
 
 
 function love.update(dt)
-   if(game.state.update) then game.state:update(dt); end
+  -- update the top state
+  -- If it returns false, do NOT update the lower one, etc...
+  for i=#game_state,1,-1 do
+    if(game_state[i].update) then
+      if not game_state[i]:update(dt) then return end
+    end
+  end
 end
 
 function love.focus(f)

@@ -16,7 +16,7 @@ Menu = {
 	execute = function (menu)
 		print ("Executing menu " .. Menu.get(menu).label)
 		if(Menu.get(menu).cb) then Menu.get(menu).cb(); end
-		if(Menu.get(menu).sub) then state_menu.menu = Menu.get(menu).sub; end -- TODO stack
+		if(Menu.get(menu).sub) then state_menu.menu = Menu.get(menu).sub; end -- TODO stack - each menu separate game_state
 	end,
 
 	draw = function (menu)
@@ -26,7 +26,11 @@ Menu = {
 		local spacey = 30
   	love.graphics.setFont(textFont);
 		love.graphics.setColor(50,50,50)
-	  love.graphics.rectangle("fill",0,0,love.graphics.getWidth(), love.graphics.getHeight())
+		if menu.fullscreen then
+			love.graphics.rectangle("fill",0,0,love.graphics.getWidth(), love.graphics.getHeight())
+		else
+			love.graphics.rectangle("fill",left+spacex-40,top+spacey-20,spacex+60,#menu.items*spacey+30)
+		end
 
   	for y=1,#menu.items do
     	for x=1,#menu.items[y] do
