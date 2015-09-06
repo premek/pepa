@@ -1,7 +1,7 @@
 hud = {}
 
 function hud:draw()
-  inventory:draw()
+  player.inventory:draw()
   local s = t("health", player.props.life) .. "\n" ..
   	t("appearance", player.props.laf) .. "\n" .. newdirt
 

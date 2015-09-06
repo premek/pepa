@@ -1,14 +1,15 @@
-Character = {
-  facing = {x=0,y=1},
-  speed = 5,
-  dirtratio = 0.004, -- TODO realtime or "turn based" over the night?
-}
+Character = {}
 
 function Character:new (o)
-	o = o or {}
-	print("creating character", o)
-	setmetatable(o, self)
-	self.__index = self
+  o = o or {}
+  print("creating character", o.img, o)
+  setmetatable(o, self)
+  self.__index = self
+  -- TODO understand lua metatables, __index. etc.
+
+  o.facing = {x=0,y=1}
+  o.speed=5
+  o.dirtratio = 0.004 -- TODO realtime or "turn based" over the night?
 
   o.grid_x = 1
   o.grid_y = 1
@@ -19,7 +20,7 @@ function Character:new (o)
 	--o.img = o.img or "npc1"
 	o.msg = {txt="",cur_len=0, displayed_len=15, offset_x = 35, offset_y = 10}
         o.props = {life = 100, laf=50}
-	o.inventory = inventory -- FIXME individual inventory for each character
+	o.inventory = Inventory:new(o.inventory)
 
   return o
 end

@@ -39,9 +39,15 @@ bankToiletMenu = {
 
 bankCheck = function(x,y,prevx,prevy)
   -- only when going from outside (from bottom)
-  if prevy > y and player.props.laf < 50 then
-    player:say("Jsem moc spinavy, do banky nemuzu");
-    player:step(0,1);
+  if prevy > y then
+    if player.props.laf < 50 then
+      player:say("Jsem moc spinavy, do banky nemuzu")
+      player:step(0,1)
+    end
+    if not player.inventory:contains("clothes") then
+      player:say("Huhu, bez obleceni me do banky nepusti")
+      player:step(0,1)
+    end
   end
 end
 
@@ -58,7 +64,7 @@ maps = {
       {4, 4, function() world:set_map(maps.bank, 8, 13); end}, -- FIXME unicode chars not working?
       {10, 8, function() player:say("Kamen, kamen, kamen, kamen, kamen, ..."); end},
       {18, 14, function() game_state_push(state_picking_mouse) end},
-
+      {18, 9, function() player:say("Strome, kamarade") end},
     }
   },
   inn = {

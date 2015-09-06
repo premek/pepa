@@ -11,13 +11,13 @@ function t(txt, ...)
   if r then
     res=r
   else
-    print("Not translated in current language", txt)
+    --print("Not translated in current language", txt)
     r = lang_settings.default[txt]
   end
   if r then
     res=r
   else
-    print("Not translated in default language", txt)
+    --print("Not translated in default language", txt)
     res = txt
   end
 

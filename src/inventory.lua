@@ -1,6 +1,16 @@
-inventory = {clothes=0, dirt = 0, elegant_beard = 0, homeless_beard=0, berries=3, monies=100}
+Inventory = {}
 
-function inventory:add(thing, amount)
+function Inventory:new(o)
+  o = o or {}
+  print("creating inventory", o)
+  setmetatable(o, self)
+  self.__index = self
+  -------------------------
+  o.clothes = o.clothes or 1
+  return o
+end
+
+function Inventory:add(thing, amount)
   amount = amount or 1
   if(self[thing]==nil) then self[thing] = 0; end
 
@@ -14,19 +24,19 @@ function inventory:add(thing, amount)
   return true
 end
 
-function inventory:remove(thing, amount)
+function Inventory:remove(thing, amount)
   amount = amount or 1
   return self:add(thing, -amount)
 end
 
-function inventory:contains(thing, amount)
+function Inventory:contains(thing, amount)
   amount = amount or 1
   return self[thing] and self[thing] >= amount;
 end
 
 
 
-function inventory:draw()
+function Inventory:draw()
 
  love.graphics.setFont(textFont);
  love.graphics.setColor(60,60,60)
