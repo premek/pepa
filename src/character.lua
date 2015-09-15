@@ -13,13 +13,13 @@ function Character:new (o)
 
   o.grid_x = 1
   o.grid_y = 1
- -- o.act_x = 1
- -- o.act_y = 1
+  o.act_x = o.act_x or 1
+  o.act_y = o.act_y or 1
 	o.offset = {x=0, y=-20}
 	o.anim_frame = 1
 	--o.img = o.img or "npc1"
 	o.msg = {txt="",cur_len=0, displayed_len=15, offset_x = 35, offset_y = 10}
-        o.props = {life = 100, laf=50}
+  o.props = {life = 100, laf=50}
 	o.inventory = Inventory:new(o.inventory)
 
   return o
@@ -68,6 +68,7 @@ end
 p_dtotal = 0
 beardtime = 0
 newdirt = 0
+dtotal = 0
 
 function Character:update(dt)
   p_dtotal = p_dtotal + dt -- TODO nejaky helper / util
@@ -102,6 +103,32 @@ function Character:update(dt)
     -30*self.inventory.homeless_beard
     +40*self.inventory.clothes
   ))
+
+
+  	dtotal = dtotal + dt
+
+  local oldy = self.act_y
+  local oldx = self.act_x
+
+  	--FIXME
+      self.act_y = self.act_y - math.floor((self.act_y - self.grid_y*world.tile.h + world.tile.h - self.offset.y) * self.speed * dt)
+      self.act_x = self.act_x - math.floor((self.act_x - self.grid_x*world.tile.w + world.tile.w - self.offset.x) * self.speed * dt)
+
+     if dtotal >= 0.2 then
+        dtotal = dtotal - 0.2   -- reduce our timer by a second, but don't discard the change... what if our framerate is 2/3 of a second?
+
+
+  if(self.act_y ~=oldy or self.act_x ~= oldx) then
+  self.anim_frame = self.anim_frame % #self.ch[0][1] + 1 -- FIXME
+  else
+  self.anim_frame = 1
+  end
+
+
+   end
+
+
+
 end
 
 function Character:warp(x,y)
@@ -119,9 +146,9 @@ function Character:step(x, y)
 	local newx = self.grid_x + x
 	local newy = self.grid_y + y
 
-    print("Step from ", self.grid_x, self.grid_y, "to", newx, newy)
+  print("Step from ", self.grid_x, self.grid_y, "to", newx, newy)
 
-            self:face(x, y)
+  self:face(x, y)
 
     if newy >0 and newy <= TiledMap_GetMapH()
        and newx >0 and newx <= TiledMap_GetMapW()

@@ -3,7 +3,7 @@ hud = {}
 function hud:draw()
   player.inventory:draw()
   local s = t("health", player.props.life) .. "\n" ..
-  	t("appearance", player.props.laf) .. "\n" .. newdirt
+  	t("appearance", player.props.laf) .. "\n" .. player.act_x
 
   love.graphics.setFont(textFont);
   love.graphics.setColor(60,60,60)
