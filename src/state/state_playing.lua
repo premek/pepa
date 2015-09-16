@@ -15,8 +15,11 @@ function state_playing:keypressed(key, unicode)
     game_state_push(state_menu)
   end
 
-  if key == 'p' then
-    game_state_push(state_paused)
+  if key == 'q' then love.event.quit() end -- dev only
+
+  if key == 'p' then game_state_push(state_paused) end
+  if key == 'i' then
+    game_state_push(state_inventory)
   end
 
   if love.keyboard.isDown('t') then

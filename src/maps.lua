@@ -63,7 +63,8 @@ maps = {
       {4, 4, function() world:set_map(maps.bank, 8, 13); end}, -- FIXME unicode chars not working?
       {10, 8, function() player:say("Kamen, kamen, kamen, kamen, kamen, ..."); end},
       {18, 14, function() game_state_push(state_picking_mouse) end},
-      {18, 9, function() player:say("Strome, kamarade") end},
+			{18, 9, function() player:say("Strome, kamarade") end},
+		  {19, 10, function() player:say("To je moje krabice") end},
     }
   },
   inn = {

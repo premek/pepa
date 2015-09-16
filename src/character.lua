@@ -141,10 +141,8 @@ end
 
 
 function Character:warp(x,y)
-  print("WARP", self.img, self.x)
   self.x = x or self.x
   self.y = y or self.y
-  print("WARP", self.img, self.x)
 
   self.px_x = self.x * world.tile.w - world.tile.w + self.offset.x
   self.px_y = self.y * world.tile.h - world.tile.h + self.offset.y

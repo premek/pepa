@@ -6,8 +6,8 @@ Menu = {
 	directions = {up={x=0,y=-1}, right={x=1,y=0}, down={x=0,y=1}, left={x=-1,y=0}},
 
 	nav = function (menu, direction)
-		local newy = math.max(1, math.min(#menu.items, menu.selected.y + Menu.directions[direction].y))
-		local newx = math.max(1, math.min(#menu.items[newy], menu.selected.x + Menu.directions[direction].x))
+		local newy = (menu.selected.y + Menu.directions[direction].y - 1) % #menu.items + 1
+		local newx = (menu.selected.x + Menu.directions[direction].x - 1) % #menu.items[newy] + 1
 		menu.selected.x = newx
 		menu.selected.y = newy
 		print ("Selected menu " .. Menu.get(menu).label)
@@ -16,6 +16,7 @@ Menu = {
 	execute = function (menu)
 		print ("Executing menu " .. Menu.get(menu).label)
 		if(Menu.get(menu).cb) then Menu.get(menu).cb(); end
+		-- FIXME sub
 		if(Menu.get(menu).sub) then state_menu.menu = Menu.get(menu).sub; end -- TODO stack - each menu separate game_state
 	end,
 

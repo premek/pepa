@@ -15,22 +15,28 @@ end
 
 mainmenu_options = {
 	selected = {x=1, y=1},
-	items = {{
+	items = {
 		{
-			label="Language",
-			sub = mainmenu_options_lang,
-		}},
-		{{
-			label="Option2",
-			cb = function()  end,
-		}}}
+			{
+				label="Language",
+				sub = mainmenu_options_lang,
+			}
+		},
+		{
+			{
+				label="Option2",
+				cb = function()  end,
+			}
+		}
 	}
+}
 
 
-	mainmenu = {
-		selected = {x=1, y=1},
-		fullscreen = true,
-		items = {{
+mainmenu = {
+	selected = {x=1, y=1},
+	fullscreen = true,
+	items = {
+		{
 			{
 				label="Start",
 				cb = function() game_state_pop() end,
@@ -43,7 +49,10 @@ mainmenu_options = {
 				sub = mainmenu_options
 			},
 			--{label="Start Multiplayer", cb = function() print ("Start") end}
-		},
-		{{label="Quit", cb = function() love.event.quit() end}}
+		},{
+			{
+				label="Quit", cb = function() love.event.quit() end
+			}
+		}
 	}
 }
