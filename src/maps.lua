@@ -54,8 +54,7 @@ end
 maps = {
   main = {
     filename = "map01",
-    objects = {
-    },
+    objects = {},
     actions = {
       {4, 9, function() world:set_map(maps.inn, 8, 10); player:say("Good morning, inn keeper"); end},
       {4, 15, function() player:say("Neumim plavat... nebo nechci."); end},
@@ -82,7 +81,9 @@ maps = {
   },
   bank = {
     filename = "map04",
-    objects = {npc.banker1, npc.banker2, npc.banker3, npc.banksecurity},
+    objects = {
+			--npc.banker1, npc.banker2, npc.banker3, npc.banksecurity
+		},
     actions = {
       {16,11, function() player:say("Se mi nechce..."); end},
       {18,11, function() player:say("Ted nechci...       a navic tady ani nejsou dvere"); end},

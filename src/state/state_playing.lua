@@ -41,4 +41,5 @@ end
 
 function state_playing:update(dt)
   player:update(dt)
+  npc.businessman:update(dt)
 end

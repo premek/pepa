@@ -3,12 +3,14 @@ require "util"
 require "counter"
 require "lang"
 
+require "mainmenu"
+
+
 require "inventory"
 require "character"
 require "npc"
 require "player"
 
-require "mainmenu"
 
 require "maps"
 require "world"
@@ -17,7 +19,8 @@ require "hud"
 
 require.tree("state")
 
-game_state = {state_playing, state_picking_mouse}
+game_state = {state_playing}
+
 game_state_push = function (state)
   if state.init then state:init() end
   table.insert(game_state, state)
@@ -39,7 +42,8 @@ love.mouse.setVisible(false)
 state_picking_mouse:init()
 
 function love.load()
-  world:set_map(maps.main, 13, 10) -- FIXME where
+  --world:set_map(maps.main, 13, 10) -- FIXME where
+  world:set_map(maps.inn, 9, 10) -- FIXME where
   --world:set_map(maps.bank, 8,13) -- FIXME where
 
   bigFont = love.graphics.newFont("font/Bohemian typewriter.ttf", 60);
