@@ -1,5 +1,6 @@
 require "lib/require"
 require "util"
+require "counter"
 require "lang"
 
 require "inventory"

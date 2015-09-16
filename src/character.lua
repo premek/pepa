@@ -1,7 +1,7 @@
 Character = {}
 
 function Character:new (o)
-  o = o or {}
+  local o = o or {}
   print("creating character", o.img, o)
   setmetatable(o, self)
   self.__index = self
@@ -9,7 +9,7 @@ function Character:new (o)
 
   o.facing = {x=0,y=1}
   o.speed=5
-  o.dirtratio = 0.004 -- TODO realtime or "turn based" over the night?
+  o.dirtratio = 30 -- TODO realtime or "turn based" over the night?
 
   o.grid_x = 1
   o.grid_y = 1
@@ -21,6 +21,8 @@ function Character:new (o)
 	o.msg = {txt="",cur_len=0, displayed_len=15, offset_x = 35, offset_y = 10}
   o.props = {life = 100, laf=50}
 	o.inventory = Inventory:new(o.inventory)
+
+  o:initCounters()
 
   return o
 end
@@ -65,37 +67,16 @@ function Character:draw()
 end
 
 --FIXME globals?
-p_dtotal = 0
-beardtime = 0
-newdirt = 0
-dtotal = 0
+char_frame_counter = 0
+
+
+
 
 function Character:update(dt)
-  p_dtotal = p_dtotal + dt -- TODO nejaky helper / util
-  if p_dtotal >= 0.10 then
-    p_dtotal = p_dtotal - 0.10
-    if(self.msg.txt ~= "") then
-      self.msg.cur_len = self.msg.cur_len + 1 --FIXME
-      if(self.msg.cur_len > string.len(self.msg.txt)+self.msg.displayed_len) then -- time to read
-        self.msg.txt = ""
-        self.msg.cur_len = 0
-      end
-    end
-  end
 
-  beardtime = beardtime + dt -- TODO nejaky helper / util
-    if beardtime >= 90 then
-      if(not self.inventory:contains("homeless_beard")) then
-        self.inventory:remove("elegant_beard")
-        self.inventory:add("homeless_beard")
-      end
-    else if beardtime >= 30 then
-      if(not self.inventory:contains("elegant_beard")) then self.inventory:add("elegant_beard"); end
-    end
-  end
-
-  newdirt = newdirt + dt*self.dirtratio
-  if newdirt > 1 then newdirt = 0; self.inventory:add("dirt"); end
+  self.counters.msg:update(dt)
+  self.counters.beard:update(dt)
+  self.counters.dirt:update(dt)
 
   self.props.laf = math.max(0, math.min(100, 50
     +10*self.inventory.elegant_beard
@@ -104,32 +85,59 @@ function Character:update(dt)
     +40*self.inventory.clothes
   ))
 
-
-  	dtotal = dtotal + dt
-
   local oldy = self.act_y
   local oldx = self.act_x
-
-  	--FIXME
-      self.act_y = self.act_y - math.floor((self.act_y - self.grid_y*world.tile.h + world.tile.h - self.offset.y) * self.speed * dt)
-      self.act_x = self.act_x - math.floor((self.act_x - self.grid_x*world.tile.w + world.tile.w - self.offset.x) * self.speed * dt)
-
-     if dtotal >= 0.2 then
-        dtotal = dtotal - 0.2   -- reduce our timer by a second, but don't discard the change... what if our framerate is 2/3 of a second?
-
-
-  if(self.act_y ~=oldy or self.act_x ~= oldx) then
-  self.anim_frame = self.anim_frame % #self.ch[0][1] + 1 -- FIXME
-  else
-  self.anim_frame = 1
-  end
-
-
-   end
-
-
+  self.act_y = self.act_y - math.floor((self.act_y - self.grid_y*world.tile.h + world.tile.h - self.offset.y) * self.speed * dt)
+  self.act_x = self.act_x - math.floor((self.act_x - self.grid_x*world.tile.w + world.tile.w - self.offset.x) * self.speed * dt)
+  self.counters.frame:update(dt, oldx, oldy)
 
 end
+
+
+function Character:initCounters()
+  self.counters = {}
+
+  self.counters.msg = Counter:newInterval(0.1, function(t)
+    if(self.msg.txt ~= "") then
+      self.msg.cur_len = self.msg.cur_len + 1 --FIXME
+      if(self.msg.cur_len > string.len(self.msg.txt)+self.msg.displayed_len) then -- time to read
+        self.msg.txt = ""
+        self.msg.cur_len = 0
+      end
+    end
+  end)
+
+  self.counters.beard = Counter:new(function(t)
+    if t >= 90 then
+      if(not self.inventory:contains("homeless_beard")) then
+        self.inventory:remove("elegant_beard")
+        self.inventory:add("homeless_beard")
+      end
+    else
+      if t >= 30 then
+        if(not self.inventory:contains("elegant_beard")) then
+          self.inventory:add("elegant_beard")
+        end
+      end
+    end
+  end)
+
+  self.counters.dirt = Counter:newInterval(self.dirtratio, function(t)
+    self.inventory:add("dirt");
+  end)
+
+  self.counters.frame = Counter:newInterval(0.2, function(t, oldx, oldy)
+    if(self.act_y ~= oldy or self.act_x ~= oldx) then
+      self.anim_frame = self.anim_frame % #self.ch[0][1] + 1
+    else
+      self.anim_frame = 1
+    end
+  end)
+
+end
+
+
+
 
 function Character:warp(x,y)
     self.grid_x = x

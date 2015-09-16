@@ -1,7 +1,7 @@
 Inventory = {}
 
 function Inventory:new(o)
-  o = o or {}
+  local o = o or {}
   print("creating inventory", o)
   setmetatable(o, self)
   self.__index = self
