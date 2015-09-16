@@ -31,7 +31,7 @@ end
 lg = love.graphics
 
 
-love.filesystem.load("tiledmap.lua")()
+love.filesystem.load("lib/tiledmap.lua")()
 
 love.mouse.setVisible(false)
 
