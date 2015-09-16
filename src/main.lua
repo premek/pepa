@@ -46,7 +46,7 @@ function love.load()
   textFont = love.graphics.newFont("font/Bohemian typewriter.ttf", 15);
 
   player:load()
- -- npc:load()
+  -- npc:load()
 end
 
 
@@ -60,7 +60,7 @@ function love.keypressed(key, unicode)
 end
 
 function love.mousepressed(x, y, button)
-    for i=#game_state,1,-1 do
+  for i=#game_state,1,-1 do
     if(game_state[i].mousepressed) then
       if not game_state[i]:mousepressed(x, y, button) then return end
     end
@@ -91,7 +91,7 @@ function love.update(dt)
 end
 
 function love.focus(f)
---  game:pause( not f )
+  --  game:pause( not f )
 end
 
 function love.quit()

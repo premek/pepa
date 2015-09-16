@@ -38,18 +38,18 @@ end
 
 function Inventory:draw()
 
- love.graphics.setFont(textFont);
- love.graphics.setColor(60,60,60)
+  love.graphics.setFont(textFont);
+  love.graphics.setColor(60,60,60)
 
- local width = 200
- local s = t("inventory") .. "\n----------\n"
+  local width = 200
+  local s = t("inventory") .. "\n----------\n"
 
- for item, amount in pairs(self) do
-   if(type(amount) == "number" and amount > 0) then
-     if(amount>1) then s= s .. amount .. "x " end
-     s = s .. t(item, amount) .. "\n"
-   end
- end
+  for item, amount in pairs(self) do
+    if(type(amount) == "number" and amount > 0) then
+      if(amount>1) then s= s .. amount .. "x " end
+      s = s .. t(item, amount) .. "\n"
+    end
+  end
 
- love.graphics.printf(s, 640-11-width, 11, width, "right")
+  love.graphics.printf(s, 640-11-width, 11, width, "right")
 end

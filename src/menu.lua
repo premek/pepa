@@ -24,7 +24,7 @@ Menu = {
 		local top = 50
 		local spacex = 100
 		local spacey = 30
-  	love.graphics.setFont(textFont);
+		love.graphics.setFont(textFont);
 		love.graphics.setColor(50,50,50)
 		if menu.fullscreen then
 			love.graphics.rectangle("fill",0,0,love.graphics.getWidth(), love.graphics.getHeight())
@@ -32,8 +32,8 @@ Menu = {
 			love.graphics.rectangle("fill",left+spacex-40,top+spacey-20,spacex+60,#menu.items*spacey+30)
 		end
 
-  	for y=1,#menu.items do
-    	for x=1,#menu.items[y] do
+		for y=1,#menu.items do
+			for x=1,#menu.items[y] do
 				love.graphics.setColor(255,255,255)
 				local l = left + x*spacex
 				local t = top + y*spacey
@@ -42,8 +42,8 @@ Menu = {
 					love.graphics.printf(">", l - 20, t, 200, "left")
 				end
 				love.graphics.printf(menu.items[y][x].label, l, t, 200, "left")
-    	end
-  	end
+			end
+		end
 	end
 
 }

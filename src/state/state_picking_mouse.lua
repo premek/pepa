@@ -13,10 +13,10 @@ state_picking_mouse = {
 }
 
 function state_picking_mouse:init ()
-  self.time = self.defaults.time
+	self.time = self.defaults.time
 	self.berries = {}
 	self.berries_count = self.defaults.berries_count
-  for i=1,self.berries_count do
+	for i=1,self.berries_count do
 		local r = -1
 		repeat
 			r = math.random(0,99);
@@ -37,14 +37,14 @@ function state_picking_mouse:draw ()
 	local p = lg.getWidth()
 	lg.printf(math.ceil(self.time) .. " s", p*0, 45, p*1, "center")
 
-  for k,v in pairs(self.berries) do
-  	self:rect(k, "fill")
-  end
+	for k,v in pairs(self.berries) do
+		self:rect(k, "fill")
+	end
 
 end
 
 function state_picking_mouse:keypressed(key, unicode)
-  if key == 'escape' then self:finished() end
+	if key == 'escape' then self:finished() end
 end
 
 function state_picking_mouse:mousepressed(x, y, button)
@@ -54,8 +54,8 @@ function state_picking_mouse:mousepressed(x, y, button)
 end
 
 function state_picking_mouse:update(dt)
-  self.time = self.time - dt
-  if(self.time<=0) then self:finished() end
+	self.time = self.time - dt
+	if(self.time<=0) then self:finished() end
 	return true -- update underlying state
 end
 
@@ -64,8 +64,8 @@ function state_picking_mouse:finished()
 end
 
 function state_picking_mouse:pick(pos)
-  self.berries[pos] = nil
-  player.inventory:add("berries")
+	self.berries[pos] = nil
+	player.inventory:add("berries")
 	-- TODO bush can have its own inventory with berries? :)
 	self.berries_count = self.berries_count - 1
 	if self.berries_count <= 0 then self:finished() end
@@ -73,21 +73,21 @@ end
 
 
 function state_picking_mouse:ctox(c)
-  return c%10*self.size+self.offsetx
+	return c%10*self.size+self.offsetx
 end
 function state_picking_mouse:ctoy(c)
-  return math.floor(c/10)*self.size+self.offsety
+	return math.floor(c/10)*self.size+self.offsety
 end
 function state_picking_mouse:xytoc(x, y)
 	return (x<self.offsetx or x>self.offsetx+10*self.size or
-            y<self.offsety or y>self.offsety+10*self.size) and -1 or
-						math.floor((y - self.offsety) / self.size) * 10 + math.floor((x - self.offsetx) / self.size)
+	y<self.offsety or y>self.offsety+10*self.size) and -1 or
+	math.floor((y - self.offsety) / self.size) * 10 + math.floor((x - self.offsetx) / self.size)
 end
 function state_picking_mouse:rect(c,mode)
-  lg.setFont(textFont);
-  lg.setColor(0,0,0)
+	lg.setFont(textFont);
+	lg.setColor(0,0,0)
 	lg.printf(c, self:ctox(c), self:ctoy(c), self.size, "center")
 
 	lg.setColor(205,255,255)
-  lg.rectangle(mode, self:ctox(c), self:ctoy(c), self.size, self.size)
+	lg.rectangle(mode, self:ctox(c), self:ctoy(c), self.size, self.size)
 end

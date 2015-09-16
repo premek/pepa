@@ -15,12 +15,12 @@ function Character:new (o)
   o.grid_y = 1
   o.act_x = o.act_x or 1
   o.act_y = o.act_y or 1
-	o.offset = {x=0, y=-20}
-	o.anim_frame = 1
-	--o.img = o.img or "npc1"
-	o.msg = {txt="",cur_len=0, displayed_len=15, offset_x = 35, offset_y = 10}
+  o.offset = {x=0, y=-20}
+  o.anim_frame = 1
+  --o.img = o.img or "npc1"
+  o.msg = {txt="",cur_len=0, displayed_len=15, offset_x = 35, offset_y = 10}
   o.props = {life = 100, laf=50}
-	o.inventory = Inventory:new(o.inventory)
+  o.inventory = Inventory:new(o.inventory)
 
   o:initCounters()
 
@@ -30,9 +30,9 @@ end
 
 function Character:load ()
 
-	self.char = love.graphics.newImage( "img/".. self.img .. ".png" )
-	-- FIXME
-	self.charnaked = love.graphics.newImage( "img/chars-naked.png" )
+  self.char = love.graphics.newImage( "img/".. self.img .. ".png" )
+  -- FIXME
+  self.charnaked = love.graphics.newImage( "img/chars-naked.png" )
 
   local chq = function(x,y) return love.graphics.newQuad(x,y, 36, 48, 113, 210); end
   self.ch = {[-1]={}, [0]={}, [1]={}}
@@ -44,18 +44,18 @@ function Character:load ()
 end
 
 function Character:face(x,y)
-	self.facing.x=x
-	self.facing.y=y
+  self.facing.x=x
+  self.facing.y=y
 end
 
 function Character:say(t)
-	self.msg.txt = t
-	self.msg.cur_len = 0
+  self.msg.txt = t
+  self.msg.cur_len = 0
 end
 
 function Character:draw()
   love.graphics.setColor(255,255,255)
-	local variant = self.inventory.clothes>0 and self.char or self.charnaked;
+  local variant = self.inventory.clothes>0 and self.char or self.charnaked;
   love.graphics.draw(variant, self.ch[self.facing.x][self.facing.y][self.anim_frame], self.act_x, self.act_y)
 
   love.graphics.setColor(0,0,0)
@@ -140,36 +140,36 @@ end
 
 
 function Character:warp(x,y)
-    self.grid_x = x
-    self.grid_y = y
-    self.act_x = x * world.tile.w - world.tile.w + self.offset.x
-    self.act_y = y * world.tile.h - world.tile.h + self.offset.y
+  self.grid_x = x
+  self.grid_y = y
+  self.act_x = x * world.tile.w - world.tile.w + self.offset.x
+  self.act_y = y * world.tile.h - world.tile.h + self.offset.y
 end
 
 
 
 function Character:step(x, y)
-	local oldx = self.grid_x
-	local oldy = self.grid_y
-	local newx = self.grid_x + x
-	local newy = self.grid_y + y
+  local oldx = self.grid_x
+  local oldy = self.grid_y
+  local newx = self.grid_x + x
+  local newy = self.grid_y + y
 
   print("Step from ", self.grid_x, self.grid_y, "to", newx, newy)
 
   self:face(x, y)
 
-    if newy >0 and newy <= TiledMap_GetMapH()
-       and newx >0 and newx <= TiledMap_GetMapW()
-       and TiledMap_GetMapTile(newx-1,newy-1,map_unwalkable_id)==0
-       then
-            self.grid_y = newy
-            self.grid_x = newx
-    else
-     print("No no")
-    end
---if TiledMap_GetMapTile(newx-1,newy-1,map_action_id) > 0 then
+  if newy >0 and newy <= TiledMap_GetMapH()
+  and newx >0 and newx <= TiledMap_GetMapW()
+  and TiledMap_GetMapTile(newx-1,newy-1,map_unwalkable_id)==0
+  then
+    self.grid_y = newy
+    self.grid_x = newx
+  else
+    print("No no")
+  end
+  --if TiledMap_GetMapTile(newx-1,newy-1,map_action_id) > 0 then
   --         action(newx, newy)
---end
+  --end
 
   world:call_player_actions(newx, newy, oldx, oldy)
 

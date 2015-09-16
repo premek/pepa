@@ -40,5 +40,5 @@ end
 
 
 function state_playing:update(dt)
-	player:update(dt)
+  player:update(dt)
 end
