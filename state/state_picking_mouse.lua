@@ -10,6 +10,9 @@ state_picking_mouse = {
 }
 
 function state_picking_mouse:load ()
+	self.img.cursor = love.mouse.getSystemCursor("hand")
+  --	cursor = love.mouse.newCursor("pig.png", 0, 0)
+
 	self.img.bg = {}
 	self.img.bg.g = love.graphics.newImage( "img/bg.gif" )
 	self.img.bg.w = self.img.bg.g:getWidth()
@@ -36,12 +39,14 @@ function state_picking_mouse:init ()
 		until not self.berries[r]
 		self.berries[r] = true
 	end
+	love.mouse.setCursor(self.img.cursor)
 	love.mouse.setPosition( lg.getWidth() / 2, lg.getHeight() / 2 )
 	love.mouse.setVisible(true)
 end
 
 function state_picking_mouse:quit ()
 	love.mouse.setVisible(false)
+	love.mouse.setCursor()
 end
 
 function state_picking_mouse:draw ()
