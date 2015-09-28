@@ -19,7 +19,11 @@ require "hud"
 
 require.tree("state")
 
-game_state = {state_playing}
+math.randomseed(os.time()); math.random(); math.random(); math.random(); -- wft
+
+
+
+game_state = {state_playing, state_picking_mouse}
 
 game_state_push = function (state)
   if state.init then state:init() end
@@ -42,6 +46,7 @@ love.mouse.setVisible(false)
 state_picking_mouse:init()
 
 function love.load()
+
   --world:set_map(maps.main, 13, 10) -- FIXME where
   world:set_map(maps.inn, 9, 10) -- FIXME where
   --world:set_map(maps.bank, 8,13) -- FIXME where
@@ -50,7 +55,10 @@ function love.load()
   textFont = love.graphics.newFont("font/Bohemian typewriter.ttf", 15);
 
   player:load()
+  state_picking_mouse:load()
   -- npc:load()
+
+
 end
 
 

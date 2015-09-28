@@ -1,16 +1,29 @@
 state_picking_mouse = {
+	img = {},
 	time = 0, -- current remaining time
-	size = 32,
-	offsetx = 160,
-	offsety = 130,
 	berries = {},
 	berries_count = 0, -- current count of berries left on the bush
-
 	defaults = {
 		time = 10,
 		berries_count = 10,
 	}
 }
+
+function state_picking_mouse:load ()
+	self.img.bg = {}
+	self.img.bg.g = love.graphics.newImage( "img/bg.gif" )
+	self.img.bg.w = self.img.bg.g:getWidth()
+	self.img.bg.h = self.img.bg.g:getHeight()
+
+	self.img.berry = {}
+	self.img.berry.g = love.graphics.newImage( "img/berry.gif" )
+	self.img.berry.w = self.img.berry.g:getWidth()
+	self.img.berry.h = self.img.berry.g:getHeight()
+	self.img.berry.size = self.img.bg.w / 10
+
+	self.img.offsetx = lg:getWidth() / 2 - self.img.bg.w / 2
+	self.img.offsety = lg:getHeight() / 2 - self.img.bg.h / 2
+end
 
 function state_picking_mouse:init ()
 	self.time = self.defaults.time
@@ -32,14 +45,22 @@ function state_picking_mouse:quit ()
 end
 
 function state_picking_mouse:draw ()
-	love.graphics.setColor(255,255,255)
-	love.graphics.setFont(bigFont);
-	local p = lg.getWidth()
-	lg.printf(math.ceil(self.time) .. " s", p*0, 45, p*1, "center")
+	lg.setColor(0,0,0,150)
+  lg.rectangle("fill",0,0,love.graphics.getWidth(), love.graphics.getHeight())
+
+	lg.setColor(255,255,255)
+	lg.draw(self.img.bg.g, self.img.offsetx, self.img.offsety)
 
 	for k,v in pairs(self.berries) do
-		self:rect(k, "fill")
+		local x = k%10*self.img.berry.size+self.img.offsetx
+		local y = math.floor(k/10)*self.img.berry.size+self.img.offsety
+		lg.draw(self.img.berry.g, x, y, 0, self.img.berry.size/self.img.berry.w)
 	end
+
+	lg.setColor(255,255,255)
+	love.graphics.setFont(bigFont);
+	local p = lg.getWidth()
+	lg.printf(math.ceil(self.time) .. " s", p*0, 25, p*1, "center")
 
 end
 
@@ -72,22 +93,10 @@ function state_picking_mouse:pick(pos)
 end
 
 
-function state_picking_mouse:ctox(c)
-	return c%10*self.size+self.offsetx
-end
-function state_picking_mouse:ctoy(c)
-	return math.floor(c/10)*self.size+self.offsety
-end
-function state_picking_mouse:xytoc(x, y)
-	return (x<self.offsetx or x>self.offsetx+10*self.size or
-	y<self.offsety or y>self.offsety+10*self.size) and -1 or
-	math.floor((y - self.offsety) / self.size) * 10 + math.floor((x - self.offsetx) / self.size)
-end
-function state_picking_mouse:rect(c,mode)
-	lg.setFont(textFont);
-	lg.setColor(0,0,0)
-	lg.printf(c, self:ctox(c), self:ctoy(c), self.size, "center")
 
-	lg.setColor(205,255,255)
-	lg.rectangle(mode, self:ctox(c), self:ctoy(c), self.size, self.size)
+function state_picking_mouse:xytoc(x, y)
+	return (x<self.img.offsetx or x>self.img.offsetx+10*self.img.berry.size or
+	y<self.img.offsety or y>self.img.offsety+10*self.img.berry.size) and -1 or
+	math.floor((y - self.img.offsety) / self.img.berry.size) * 10
+	+ math.floor((x - self.img.offsetx) / self.img.berry.size)
 end
