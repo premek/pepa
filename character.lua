@@ -180,4 +180,5 @@ function Character:interact(actor)
   self:face(actor.x-self.x, actor.y-self.y)
   self:say("Hello!")
   actor:say("Nazdar")
+  -- TODO trade items, see storage.lua
 end
