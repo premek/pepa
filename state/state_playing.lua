@@ -44,5 +44,7 @@ end
 
 function state_playing:update(dt)
   player:update(dt)
-  npc.businessman:update(dt)
+  for i, object in ipairs(world.current_map.objects) do
+    if object.update ~= nil then object:update(dt) end
+  end
 end

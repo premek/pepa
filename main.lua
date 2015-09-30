@@ -23,7 +23,7 @@ math.randomseed(os.time()); math.random(); math.random(); math.random(); -- wft
 
 
 
-game_state = {state_playing, state_picking_mouse}
+game_state = {state_playing}
 
 game_state_push = function (state)
   if state.init then state:init() end
@@ -43,12 +43,12 @@ love.filesystem.load("lib/tiledmap.lua")()
 love.mouse.setVisible(false)
 
 -----------XXXXXXXXXXXX
-state_picking_mouse:init()
+--state_picking_mouse:init()
 
 function love.load()
 
-  --world:set_map(maps.main, 13, 10) -- FIXME where
-  world:set_map(maps.inn, 9, 10) -- FIXME where
+  world:set_map(maps.main, 16, 10) -- FIXME where
+  --world:set_map(maps.inn, 9, 10) -- FIXME where
   --world:set_map(maps.bank, 8,13) -- FIXME where
 
   bigFont = love.graphics.newFont("font/Bohemian typewriter.ttf", 60);
