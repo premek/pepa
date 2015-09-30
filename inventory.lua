@@ -6,7 +6,6 @@ function Inventory:new(o)
   setmetatable(o, self)
   self.__index = self
   -------------------------
-  o.clothes = o.clothes or 1
   return o
 end
 
@@ -46,7 +45,6 @@ function Inventory:draw()
 
   for item, amount in pairs(self) do
     if(type(amount) == "number" and amount > 0) then
-      if(amount>1) then s= s .. amount .. "x " end
       s = s .. t(item, amount) .. "\n"
     end
   end

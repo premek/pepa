@@ -10,27 +10,31 @@ Menu = {
 		local newx = (menu.selected.x + Menu.directions[direction].x - 1) % #menu.items[newy] + 1
 		menu.selected.x = newx
 		menu.selected.y = newy
-		print ("Selected menu " .. Menu.get(menu).label)
+		--print ("Selected menu " .. Menu.get(menu).label)
 	end,
 
 	execute = function (menu)
-		print ("Executing menu " .. Menu.get(menu).label)
-		if(Menu.get(menu).cb) then Menu.get(menu).cb(); end
-		-- FIXME sub
-		if(Menu.get(menu).sub) then state_menu.menu = Menu.get(menu).sub; end -- TODO stack - each menu separate game_state
+		local selected = Menu.get(menu);
+		if selected then
+		  print ("Executing menu " .. selected.label)
+		  if(selected.cb) then selected.cb(); end
+		  -- FIXME sub
+		  if(selected.sub) then state_menu.menu = selected.sub; end
+			-- TODO stack - each menu separate game_state
+	  end
 	end,
 
 	draw = function (menu)
 		local left = 150
 		local top = 50
-		local spacex = 100
+		local spacex = 130
 		local spacey = 30
 		love.graphics.setFont(textFont);
 		love.graphics.setColor(50,50,50)
 		if menu.fullscreen then
 			love.graphics.rectangle("fill",0,0,love.graphics.getWidth(), love.graphics.getHeight())
 		else
-			love.graphics.rectangle("fill",left+spacex-40,top+spacey-20,spacex+60,#menu.items*spacey+30)
+			love.graphics.rectangle("fill",left+spacex-40,top+spacey-20,spacex*2+60,#menu.items*spacey+30)
 		end
 
 		for y=1,#menu.items do
@@ -42,7 +46,9 @@ Menu = {
 					--love.graphics.setColor(0,0,0)
 					love.graphics.printf(">", l - 20, t, 200, "left")
 				end
-				love.graphics.printf(menu.items[y][x].label, l, t, 200, "left")
+				if menu.items[y][x] then
+					love.graphics.printf(menu.items[y][x].label, l, t, 200, "left")
+				end
 			end
 		end
 	end

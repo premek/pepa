@@ -54,7 +54,9 @@ end
 maps = {
   main = {
     filename = "map01",
-    objects = {},
+    objects = {
+			Storage:new({x=19, y=10, inventory={clothes=1}}),
+		},
     actions = {
       {4, 9, function() world:set_map(maps.inn, 8, 10); player:say("Good morning, inn keeper"); end},
       {4, 15, function() player:say("Neumim plavat... nebo nechci."); end},
@@ -64,20 +66,20 @@ maps = {
       {10, 8, function() player:say("Kamen, kamen, kamen, kamen, kamen, ..."); end},
       {18, 14, function() game_state_push(state_picking_mouse) end},
 			{18, 9, function() player:say("Strome, kamarade") end},
-		  {19, 10, function() player:say("To je moje krabice") end},
     }
   },
   inn = {
     filename = "map03",
     objects = {
         npc.businessman,
+				Storage:new({x=10, y=6, inventory={book=10}}),
+			Storage:new({x=11, y=6, inventory={berries=1}}),
     },
     actions = {
       {8, 11, function() world:set_map(maps.main, 4, 10); end},
       {9, 11, function() world:set_map(maps.main, 4, 10); end},
       {9, 6, function() state_menu.menu = vendingMachineMenu; game_state_push(state_menu); end},
       {12, 6, function() player:say("Halooo!"); end},
-      {10, 6, function() player.inventory.clothes = 1; end},
     }
   },
   bank = {

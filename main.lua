@@ -9,6 +9,7 @@ require "mainmenu"
 require "inventory"
 require "character"
 require "npc"
+require "storage"
 require "player"
 
 
@@ -25,7 +26,7 @@ math.randomseed(os.time()); math.random(); math.random(); math.random(); -- wft
 
 game_state = {state_playing}
 
-game_state_push = function (state)
+game_state_push = function (state) -- TODO arguments
   if state.init then state:init() end
   table.insert(game_state, state)
 end
@@ -46,7 +47,6 @@ love.mouse.setVisible(false)
 --state_picking_mouse:init()
 
 function love.load()
-
   world:set_map(maps.main, 16, 10) -- FIXME where
   --world:set_map(maps.inn, 9, 10) -- FIXME where
   --world:set_map(maps.bank, 8,13) -- FIXME where

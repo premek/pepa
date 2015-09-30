@@ -44,6 +44,10 @@ function Character:load ()
   self.ch[-1][0] = {chq(40,153), chq(4,153), chq(40,153), chq(76,153)}
 end
 
+function Character:init ()
+  self:warp()
+end
+
 function Character:face(x,y)
   self.facing.x=x
   self.facing.y=y
@@ -56,7 +60,7 @@ end
 
 function Character:draw()
   love.graphics.setColor(255,255,255)
-  local variant = self.inventory.clothes>0 and self.char or self.charnaked;
+  local variant = self.inventory.clothes and self.inventory.clothes>0 and self.char or self.charnaked;
   love.graphics.draw(variant, self.ch[self.facing.x][self.facing.y][self.anim_frame], self.px_x, self.px_y)
 
   love.graphics.setColor(0,0,0)

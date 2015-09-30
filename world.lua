@@ -16,8 +16,8 @@ function world:set_map(map, px, py)
     TiledMap_GetLayerZByName("unwalkable") or error("missing layer")
 
   for i,o in pairs(map.objects) do
-    o:load()
-    o:warp() --FIXME?
+    if o.load then o:load() end
+    if o.init then o:init() end
    end
   player:warp(px,py)
 end
@@ -41,7 +41,9 @@ end
 function world:draw ()
   love.graphics.setColor(255,255,255)
   TiledMap_DrawNearCam(self.cam.x, self.cam.y)
-  for i,o in pairs(self.current_map.objects) do o:draw(); end
+  for i,o in pairs(self.current_map.objects) do
+    if o.draw then o:draw() end
+  end
 
 end
 
