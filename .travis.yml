@@ -10,4 +10,4 @@ deploy:
     - "Pepa.love"
     - "Pepa.exe"
   on:
-    repo: premek/pepa
+    tags: true
