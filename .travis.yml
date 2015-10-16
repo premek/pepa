@@ -2,7 +2,9 @@ language: bash
 install: true
 script: "./build.sh"
 deploy:
-  provider: bintray
-  file: ".bintray_descriptor.yml"
-  user: premek
-  key: 3a9d575850d96e92c7745c7e2c808c72b7ea153c
+  provider: releases
+  api_key:
+    secure: o45lzoIW8DDkihKFuWqoN1m95DQAX4Wc5153wW4enyUmthlV2LqnFAwQPsa/J2+jD+2dFjbVuA1dz/sblhUlp1fsHXp997v2s/pAw1mDSdCIb8ol/qMzMzbCgaDqDEZkAOZBnrl7+fa66IXkWxcNBxEStTlXox1TKxK872FjOvtrMdFsbcb67qbcbFzvYeMjvDxTnjX2sUVdRa1oS2Z8mzNs9QHXyQf0HGaWPtCvRvrv4lKR+NpJ9PZ19tZFwKwj0OMHRvU8KkNN7ymP7C4fxoxoiBBU1y/6ne4MJmG8mH819y/WR8UyQNl14tLagzFYF840LXpqWqV3OeSg6LUUqI7D6QSk0RdDf+PR4nUmfSDz1gZXxC56jduIIbpahlLteJ7HJ5MzLQjx8yxWArT7iqbL6KLAsOvB9+/gcCWhi0YXhB7yWC0qYXkYCcBBXxKt9FOPCGDkgfXFfcclIoJ6wVdcoVpVjsgqYQtTI8Nth3fmiKFaC3qJ/VzM09djdjV6citRTLtovOWAAm8iIud6ZNrYvRKx7lIEpbkFb8MLkLqJe2N7Ph26l353Fgicui6gn1D66v+A+xlCcluK98WS2sY9PRVimGsXyDt00vvc5vMFZuLDeQbPW0OFl+IYNP/MTGGQW8eL4aAwgEKj0mYmIuS/ly+bF8TOimWQlJ1zgec=
+  file: Pepa.love
+  on:
+    repo: premek/pepa
