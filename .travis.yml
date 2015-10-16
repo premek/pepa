@@ -1,3 +1,8 @@
 language: bash
 install: true
-script: ./build.sh
+script: "./build.sh"
+deploy:
+  provider: bintray
+  file: ".bintray_descriptor.yml"
+  user: premek
+  key: 3a9d575850d96e92c7745c7e2c808c72b7ea153c
