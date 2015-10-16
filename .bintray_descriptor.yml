@@ -54,7 +54,8 @@
 
     "files":
         [
-        {"includePattern": "Pepa.(love|exe)", "uploadPattern": "Pepa.$1"}
+        {"includePattern": "Pepa.love", "uploadPattern": "Pepa.love"},
+        {"includePattern": "Pepa.exe", "uploadPattern": "Pepa.exe"}
         ],
     "publish": true
 }
