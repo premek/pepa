@@ -11,3 +11,4 @@ deploy:
     - "Pepa.exe"
   on:
     tags: true
+    all_branches: true
