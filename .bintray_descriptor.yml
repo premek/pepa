@@ -54,7 +54,7 @@
 
     "files":
         [
-        {"includePattern": "(.*\.(love|exe))", "excludePattern": ".*/do-not-deploy/.*", "uploadPattern": "$1"}
+        {"includePattern": "Pepa.love", "uploadPattern": "Pepa.love"}
         ],
     "publish": true
 }
