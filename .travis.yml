@@ -1,11 +1,14 @@
 language: bash
+sudo: false
 install: true
 
-before_install:
-  - sudo apt-get update -qq
-  - sudo apt-get install -qq lua5.2
+addons:
+  apt:
+    packages:
+    - lua5.2
     
 script: "./build.sh"
+
 deploy:
   provider: releases
   skip_cleanup: true
