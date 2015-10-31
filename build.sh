@@ -12,6 +12,9 @@ if [ "$1" == "clean" ]; then
 fi
 
 
+find . -iname "*.lua" | xargs luac -p || { echo 'luac parse test failed' ; exit 1; }
+
+
 cd src
 zip -9 -r - . > "../${P}.love"
 cd ..
