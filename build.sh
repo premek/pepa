@@ -1,9 +1,16 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 set -x
 
 P="Pepa"
 LD="love-0.9.2-win32"
+
+
+if [ "$1" == "clean" ]; then 
+ rm "${P}.love" "${P}.zip"
+ exit;
+fi
+
 
 cd src
 zip -9 -r - . > "../${P}.love"
