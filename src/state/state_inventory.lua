@@ -1,4 +1,4 @@
-state_inventory = {} buhuuu!
+state_inventory = {}
 
 function state_inventory:draw() return state_menu:draw() end
 function state_inventory:keypressed(key, unicode)
