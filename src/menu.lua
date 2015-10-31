@@ -24,18 +24,41 @@ Menu = {
 	  end
 	end,
 
+	show = function (menu)
+          state_menu.menu = menu
+          game_state_push(state_menu)
+	end,
+
+  hide = function() game_state_pop() end;
+
+  new = function(items, title)
+		print (Menu.hide, game_state_pop)
+    return { selected = {x=1, y=1}, title=title, items = items }
+	end,
+
 	draw = function (menu)
 		local left = 150
-		local top = 50
+		local top = 80
 		local spacex = 130
 		local spacey = 30
 		love.graphics.setFont(textFont);
+
+
+
+		if(menu.title) then
+			love.graphics.setColor(50,50,50)
+			love.graphics.rectangle("fill",left+spacex-40,top-35,spacex*2+60,spacey+10)
+			love.graphics.setColor(255,255,255)
+			love.graphics.printf(menu.title, left+spacex-20, top-25, 200, "left")
+		end
+
 		love.graphics.setColor(50,50,50)
 		if menu.fullscreen then
 			love.graphics.rectangle("fill",0,0,love.graphics.getWidth(), love.graphics.getHeight())
 		else
 			love.graphics.rectangle("fill",left+spacex-40,top+spacey-20,spacex*2+60,#menu.items*spacey+30)
 		end
+
 
 		for y=1,#menu.items do
 			for x=1,#menu.items[y] do
