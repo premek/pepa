@@ -10,5 +10,5 @@ deploy:
     - "Pepa.love"
     - "Pepa.exe"
   on:
-  #  tags: true
+    tags: true
     all_branches: true
