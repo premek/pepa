@@ -18,4 +18,4 @@ function state_menu:keypressed(key, unicode)
 	if key == 'escape' then game_state_pop() end
 end
 
-function state_menu:update () return false end -- XXX should menu pause or not?
+function state_menu:update () return true end -- XXX should menu pause or not?

@@ -51,6 +51,13 @@ bankCheck = function(x,y,prevx,prevy)
   end
 end
 
+local mytree = function()
+  Menu.show(Menu.new({
+		    {{label="Spat", cb = function() Menu.hide(); game_state_push(state_sleeping); end}},
+		    {{label="Odejit", cb = Menu.hide}},
+		  }, "Tohle je muj strom"))
+end
+
 maps = {
   main = {
     filename = "map01",
@@ -65,7 +72,8 @@ maps = {
       {4, 4, function() world:set_map(maps.bank, 8, 13); end}, -- FIXME unicode chars not working?
       {10, 8, function() player:say("Kamen, kamen, kamen, kamen, kamen, ..."); end},
       {18, 14, function() game_state_push(state_picking_mouse) end},
-			{18, 9, function() player:say("Strome, kamarade") end},
+      {18, 9, mytree},
+      {17, 9, mytree},
     }
   },
   inn = {

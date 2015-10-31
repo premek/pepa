@@ -20,7 +20,7 @@ function Character:new (o)
   o.anim_frame = 1
   o.img = o.img or "npc1"
   o.msg = {txt="",cur_len=0, displayed_len=15, offset_x = 35, offset_y = 10}
-  o.props = {life = 100, laf=50}
+  o.props = Inventory:new({life = 100, laf=50})
   o.inventory = Inventory:new(o.inventory)
 
   o:initCounters()
@@ -83,11 +83,11 @@ function Character:update(dt)
   self.counters.beard:update(dt)
   self.counters.dirt:update(dt)
 
-  self.props.laf = math.max(0, math.min(100, 50
-    +10*(self.inventory.elegant_beard or 0)
-    -20*(self.inventory.dirt or 0)
-    -30*(self.inventory.homeless_beard or 0)
-    +40*(self.inventory.clothesor or 0)
+  self.props.laf = math.max(0, math.min(100, 60
+    +10*(self.props.elegant_beard or 0)
+    -1*(self.props.dirt or 0)
+    -30*(self.props.homeless_beard or 0)
+    +40*(self.inventory.clothes or 0)
   ))
 
   local oldy = self.px_y
@@ -114,21 +114,21 @@ function Character:initCounters()
 
   self.counters.beard = Counter:new(function(t)
     if t >= 90 then
-      if(not self.inventory:contains("homeless_beard")) then
-        self.inventory:remove("elegant_beard")
-        self.inventory:add("homeless_beard")
+      if(not self.props:contains("homeless_beard")) then
+        self.props:remove("elegant_beard")
+        self.props:add("homeless_beard")
       end
     else
       if t >= 30 then
-        if(not self.inventory:contains("elegant_beard")) then
-          self.inventory:add("elegant_beard")
+        if(not self.props:contains("elegant_beard")) then
+          self.props:add("elegant_beard")
         end
       end
     end
   end)
 
   self.counters.dirt = Counter:newInterval(self.dirtratio, function(t)
-    self.inventory:add("dirt");
+    self.props:add("dirt");
   end)
 
   self.counters.frame = Counter:newInterval(0.2, function(t, oldx, oldy)

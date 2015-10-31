@@ -6,6 +6,10 @@ state_picking_mouse = {
 	defaults = {
 		time = 10,
 		berries_count = 10,
+	},
+	gains = {
+		life = -20,
+		dirt = 20,
 	}
 }
 
@@ -86,6 +90,8 @@ function state_picking_mouse:update(dt)
 end
 
 function state_picking_mouse:finished()
+	player.props:add("life", self.gains.life)
+	player.props:add("dirt", self.gains.dirt)
 	game_state_pop()
 end
 

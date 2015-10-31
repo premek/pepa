@@ -35,19 +35,22 @@ end
 
 
 
-function Inventory:draw()
+function Inventory:draw(title,x,y,align)
+  local width = 200
+  x=x or 640-11-width
+  y=y or 11
+  align = align or "right"
+  title = title or (t("inventory") .. " ('I')")
 
   love.graphics.setFont(textFont);
   love.graphics.setColor(60,60,60)
 
-  local width = 200
-  local s = t("inventory") .. " ('I')\n----------\n"
-
+  local s = title.."\n----------\n"
   for item, amount in pairs(self) do
     if(type(amount) == "number" and amount > 0) then
-      s = s .. t(item, amount) .. "\n"
+      s = s .. t(item, amount) .. " x" .. amount .. "\n"
     end
   end
 
-  love.graphics.printf(s, 640-11-width, 11, width, "right")
+  love.graphics.printf(s, x, y, width, align)
 end
