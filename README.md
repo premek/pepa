@@ -23,6 +23,6 @@ For testing the latest version from git:
 - OR download the [latest ZIPped sources](https://github.com/premek/pepa/archive/master.zip)
 - run `build.sh` to produce **.love** file and ZIP with **Windows executable**
 - or with [LÖVE](https://love2d.org/) installed, you can also run it with `love path/to/src` (path to the directory containing main.lua file)
-- 
+
 ## Reporting Bugs
-Please use the [Issues page](https://github.com/premek/pepa/archive/master.zip)
+Please fill in a [new issue](https://github.com/premek/pepa/issues/new) on GitHub
