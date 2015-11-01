@@ -39,7 +39,8 @@ function Storage:getMenu(actor)
   local menu = {
    selected = {x=1, y=1},
    nonblocking = true,
-   items = {{{label="(Storage)"},{label="(Inventory)"}}}
+   title = "(Storage)...............(Inventory)",
+   items = {}
   }
   for row=1, math.max(#items[1], #items[2]) do
     local line = {}
