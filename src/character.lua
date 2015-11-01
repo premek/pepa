@@ -9,7 +9,6 @@ function Character:new (o)
 
   o.facing = {x=0,y=1}
   o.speed=5
-  o.dirtratio = 30 -- TODO realtime or "turn based" over the night?
   o.walkable = false
 
   o.x = o.x or 1
@@ -20,10 +19,12 @@ function Character:new (o)
   o.anim_frame = 1
   o.img = o.img or "npc1"
   o.msg = {txt="",cur_len=0, displayed_len=15, offset_x = 35, offset_y = 10}
-  o.props = Inventory:new({life = 100, laf=50})
-  o.inventory = Inventory:new(o.inventory)
+  o.props = Inventory:new()
+  o.inventory = Inventory:new()
 
   o:initCounters()
+
+  o.props.life = 100
 
   return o
 end
@@ -80,8 +81,7 @@ char_frame_counter = 0
 function Character:update(dt)
 
   self.counters.msg:update(dt)
-  self.counters.beard:update(dt)
-  self.counters.dirt:update(dt)
+  self.counters.beard:update(dt) -- FIXME - turn based?
 
   self.props.laf = math.max(0, math.min(100, 60
     +10*(self.props.elegant_beard or 0)
@@ -125,10 +125,6 @@ function Character:initCounters()
         end
       end
     end
-  end)
-
-  self.counters.dirt = Counter:newInterval(self.dirtratio, function(t)
-    self.props:add("dirt");
   end)
 
   self.counters.frame = Counter:newInterval(0.2, function(t, oldx, oldy)

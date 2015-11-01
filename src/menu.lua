@@ -16,7 +16,7 @@ Menu = {
 	execute = function (menu)
 		local selected = Menu.get(menu);
 		if selected then
-		  print ("Executing menu " .. selected.label)
+		  print ("Executing menu " .. selected.label, selected.cb, selected.sub)
 		  if(selected.cb) then selected.cb(); end
 		  -- FIXME sub
 		  if(selected.sub) then state_menu.menu = selected.sub; end

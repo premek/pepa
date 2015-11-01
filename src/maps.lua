@@ -15,7 +15,7 @@ vendingMachineMenu = {
 		{label="Shave me", cb = function()
       game_state_pop()
       if(player.inventory:remove("monies", 10)) then
-        if(player.inventory:remove("homeless_beard") or player.inventory:remove("elegant_beard")) then beardtime = 0; end
+        if(player.props:remove("homeless_beard") or player.props:remove("elegant_beard")) then beardtime = 0; end
         player:say("Tak...")
       else
         player:say("Na to nemam")
@@ -30,7 +30,7 @@ bankToiletMenu = {
   selected = {x=1, y=1},
   items = {
     {{label="Napit se", cb = function() player.props.life = player.props.life + 2 ; game_state_pop(); end}},
-    {{label="Umyt si oblicej", cb = function() player.inventory:remove("dirt"); game_state_pop(); end}},
+    {{label="Umyt si oblicej", cb = function() player.props:remove("dirt"); game_state_pop(); end}},
     {{label="Cely se umyt", cb = function() player.inventory:remove("clothes"); game_state_pop(); end}},
     {{label="Odejit", cb = function() game_state_pop();end}},
   }
@@ -58,6 +58,25 @@ local mytree = function()
 		  }, "Tohle je muj strom"))
 end
 
+-- FIXME clean this code
+local bath = function()
+	local random = math.random(1, 35)
+	local amount = math.min(player.props.dirt, random)
+	print("cleaning dirt", amount, random)
+	player.props:remove("dirt", amount)
+	game_state_pop()
+end
+
+local waterMenu = {
+  selected = {x=1, y=1},
+  items = {
+    {{label="Napit se", cb = function() player.props.life = player.props.life - 30 ; game_state_pop(); end}},
+    {{label="Vykoupat se", cb = bath}},
+    {{label="Odejit", cb = function() game_state_pop();end}},
+  }
+}
+
+
 maps = {
   main = {
     filename = "map01",
@@ -66,7 +85,7 @@ maps = {
 		},
     actions = {
       {4, 9, function() world:set_map(maps.inn, 8, 10); player:say("Good morning, inn keeper"); end},
-      {4, 15, function() player:say("Neumim plavat... nebo nechci."); end},
+      {4, 15, function() Menu.show(waterMenu); end},
       {15, 3, function() player:say("Tuk tuk"); end}, -- FIXME unicode chars not working?
       {2, 4, function() player:say("Co je asi v tom sudu?"); end}, -- FIXME unicode chars not working?
       {4, 4, function() world:set_map(maps.bank, 8, 13); end}, -- FIXME unicode chars not working?

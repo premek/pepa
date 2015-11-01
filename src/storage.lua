@@ -14,16 +14,6 @@ function Storage:new (o)
   return o
 end
 
-Storage.menu = {
-  selected = {x=1, y=1},
-  items = {
-    {{label="Napit se", cb = function() player.props.life = player.props.life + 2 ; game_state_pop(); end}},
-    {{label="Umyt si oblicej", cb = function() player.inventory:remove("dirt"); game_state_pop(); end}},
-    {{label="Cely se umyt", cb = function() player.inventory:remove("clothes"); game_state_pop(); end}},
-    {{label="Odejit", cb = function() game_state_pop();end}},
-  }
-}
-
 function Storage:getMenu(actor)
   local inventories = {self.inventory, actor.inventory}
 

@@ -4,8 +4,9 @@ function Inventory:new(o)
   local o = o or {}
   print("creating inventory", o)
   setmetatable(o, self)
-  self.__index = self
-  -------------------------
+  self.__index = function(table, key)
+    return self[key] or 0 -- default value for nonexisting keys in this table
+  end
   return o
 end
 
