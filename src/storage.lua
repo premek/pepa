@@ -38,6 +38,7 @@ function Storage:getMenu(actor)
 
   local menu = {
    selected = {x=1, y=1},
+   nonblocking = true,
    items = {{{label="(Storage)"},{label="(Inventory)"}}}
   }
   for row=1, math.max(#items[1], #items[2]) do
@@ -45,7 +46,7 @@ function Storage:getMenu(actor)
     for col, inventory in ipairs(inventories) do
       local nextInventory = inventories[(col % #inventories)+1]
       if items[col][row] then line[col] = {
-        label = t(items[col][row], inventory[items[col][row]]),
+        label = t(items[col][row], inventory[items[col][row]]) .. " x"..inventory[items[col][row]],
         cb = function()
           inventory:remove(items[col][row])
           nextInventory:add(items[col][row])

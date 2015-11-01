@@ -32,8 +32,11 @@ Menu = {
   hide = function() game_state_pop() end;
 
   new = function(items, title)
-		print (Menu.hide, game_state_pop)
     return { selected = {x=1, y=1}, title=title, items = items }
+	end,
+
+	alert = function(msg)
+		Menu.show(Menu.new({{{label="OK", cb = Menu.hide}}}, msg))
 	end,
 
 	draw = function (menu)

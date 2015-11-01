@@ -6,7 +6,8 @@ state_sleeping = {
 	gains = {
 		life = 20,
 		dirt = 1,
-	}
+	},
+	robbery = 2
 }
 
 function state_sleeping:init ()
@@ -32,5 +33,12 @@ end
 function state_sleeping:finished()
 	player.props:add("life", self.gains.life)
 	player.props:add("dirt", self.gains.dirt)
+
+	if math.random(self.robbery)==1 then
+		print("robbery")
+		player.inventory.monies = 0
+		-- FIXME Menu.alert("Zlodej!")
+	end
+
 	game_state_pop()
 end
