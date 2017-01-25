@@ -1,0 +1,3 @@
+[submodule "src/lib/pink"]
+	path = src/lib/pink
+	url = git@github.com:premek/pink.git
