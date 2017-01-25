@@ -64,7 +64,9 @@ cp -r src target
 cd target/src
 
 # compile .ink story into lua table so the runtime will not need lpeg dep.
-# lua lib/pink/pink/pink.lua parse game.ink > game.lua
+for F in ink/*; do
+  lua lib/pink/pink/pink.lua parse $F/main.ink > $F/main.lua
+done
 
 zip -9 -r - . > "../${P}.love"
 cd -
@@ -72,7 +74,6 @@ cd -
 ### .exe
 
 if [ ! -f "target/love-win.zip" ]; then wget "$LZ" -O "target/love-win.zip"; fi
-#cp ~/downloads/love-0.10.1-win32.zip "target/love-win.zip"
 unzip -o "target/love-win.zip" -d "target"
 
 tmp="target/tmp/"
