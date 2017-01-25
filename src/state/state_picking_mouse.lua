@@ -18,12 +18,12 @@ function state_picking_mouse:load ()
   --	cursor = love.mouse.newCursor("pig.png", 0, 0)
 
 	self.img.bg = {}
-	self.img.bg.g = love.graphics.newImage( "img/bg.gif" )
+	self.img.bg.g = love.graphics.newImage( "img/bg.png" )
 	self.img.bg.w = self.img.bg.g:getWidth()
 	self.img.bg.h = self.img.bg.g:getHeight()
 
 	self.img.berry = {}
-	self.img.berry.g = love.graphics.newImage( "img/berry.gif" )
+	self.img.berry.g = love.graphics.newImage( "img/berry.png" )
 	self.img.berry.w = self.img.berry.g:getWidth()
 	self.img.berry.h = self.img.berry.g:getHeight()
 	self.img.berry.size = self.img.bg.w / 10

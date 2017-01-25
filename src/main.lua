@@ -64,6 +64,10 @@ end
 
 
 function love.keypressed(key, unicode)
+  --if key == "rctrl" then
+--      debug.debug()
+--  end
+
   for i=#game_state,1,-1 do
     if(game_state[i].keypressed) then
       if not game_state[i]:keypressed(key, unicode) then return end

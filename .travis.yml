@@ -1,22 +1,36 @@
+# curl -u premysl.vyhnal@gmail.com   -d '{"scopes":["public_repo"],"note":"XXX token name XXX"}'   https://api.github.com/authorizations
 language: bash
 sudo: false
 install: true
-
 addons:
   apt:
     packages:
-    - lua5.2
-    
-script: "./build.sh"
+    - lua5.1
+    - python2.7
+    - luarocks
+before_install:
+  - luarocks install --local lpeg
+  - "`luarocks path`" # execute the luarocks output - sets the paths for 'local' tree
 
+script: "[[ -n $TRAVIS_TAG ]] && ./build.sh -l $LOVE -n $NAME web || ./build.sh -l $LOVE -n $NAME" # web only for tags
 deploy:
   provider: releases
   skip_cleanup: true
   api_key:
-    secure: o45lzoIW8DDkihKFuWqoN1m95DQAX4Wc5153wW4enyUmthlV2LqnFAwQPsa/J2+jD+2dFjbVuA1dz/sblhUlp1fsHXp997v2s/pAw1mDSdCIb8ol/qMzMzbCgaDqDEZkAOZBnrl7+fa66IXkWxcNBxEStTlXox1TKxK872FjOvtrMdFsbcb67qbcbFzvYeMjvDxTnjX2sUVdRa1oS2Z8mzNs9QHXyQf0HGaWPtCvRvrv4lKR+NpJ9PZ19tZFwKwj0OMHRvU8KkNN7ymP7C4fxoxoiBBU1y/6ne4MJmG8mH819y/WR8UyQNl14tLagzFYF840LXpqWqV3OeSg6LUUqI7D6QSk0RdDf+PR4nUmfSDz1gZXxC56jduIIbpahlLteJ7HJ5MzLQjx8yxWArT7iqbL6KLAsOvB9+/gcCWhi0YXhB7yWC0qYXkYCcBBXxKt9FOPCGDkgfXFfcclIoJ6wVdcoVpVjsgqYQtTI8Nth3fmiKFaC3qJ/VzM09djdjV6citRTLtovOWAAm8iIud6ZNrYvRKx7lIEpbkFb8MLkLqJe2N7Ph26l353Fgicui6gn1D66v+A+xlCcluK98WS2sY9PRVimGsXyDt00vvc5vMFZuLDeQbPW0OFl+IYNP/MTGGQW8eL4aAwgEKj0mYmIuS/ly+bF8TOimWQlJ1zgec=
-  file: 
-    - "Pepa.love"
-    - "Pepa.zip"
+    # travis encrypt <token>
+    secure: "AFmvfcgXxpiklAsHDU3yTpXELI8V0jBJpe5yup0igL0ByPD8dmsagy/m+x3ysReSfoGrEr3szx3rslQanHsY1zXXu3u4NHJDeNP8oMtSl1v4msl41ow4VZGDWUojlcvc1VB2Nt2ridPJ2lnlMR+Pg2qzKqh081J3IpxcsshN7BiyRaoDO+N5rNRxTjPaSjW2Yi2d8ivhc58CSQOeYxuA+HH565nFEsk/khxQd+L99cVDRy8tIN5fVIy5aWIvaSnBto0tA4/Fg+IgVSizSEuVwZVy7F6OXeq3EfEXiLT3b2unqKSaLkDGNeEyfZGG/UZSW0fHBnwSKAwoacbEQC88WEch16Ucgpb7ojNTThL6nNAy6QUG2gvSrtN8pI8NAf5h/iklIRjj7Kf1NCnuJoUbnrDUqKMHAHHfD+JnNlUACioZBnBCZ2FQcfW765SdrToQAUYwa5+mczgT+2DZzxoZtpz8sVhDc1kNh3avZxCpK+AxE8ZGniZCfjbxpDc4bwS+GlNu8BdRJ8cZVy6Kp4fOHarI33rb05MIWq6i2ckmFrDigy/81IdA0rdJ2mNfpaaDRIWKVvOjMeYv9g06A7yBT6gX45Kk5cYKr6JFiOr+5sansSEOJ6JqDKYpfsBYtlAFw4/yB/G/3xdArBauCQtSL8LxrRwqFaI0YSYjDPv11UQ="
+  file:
+  - target/$NAME.love
+  - target/$NAME-win.zip
+  - target/$NAME-web.zip
   on:
     tags: true
     all_branches: true
+after_success:
+- "[[ -n $TRAVIS_TAG ]] && ./build.sh -l $LOVE -n $NAME deploy $TRAVIS_REPO_SLUG"
+env:
+- NAME=pepa
+- LOVE=0.10.2
+  global:
+   # travis encrypt GH_TOKEN=<token>
+  - secure: "QthrxeqOLyLvadnP1d10KoB7GqWamLDdTdHJSwAAFDeeYrtM/sSEv41Dmhw4ndmWZGv8VrvXAIbywwZKYO9hOiUKhRLpOFtfjvM5dXLlKdqoyLsnbaynQbXT9LgoyIf4dmuNWhPVC/WPJ3Ka6dRvyEthaZ1ntlzIhvSrQEg9QxF0MpbIPIp20IcWxkYK9KCTm3ss0Vo9oNSN7uTvYeS3oDe3vwIAfMpWwcql5vr2myvMnkFFKjNDlCQKSsy/qz9Z8uj9rf8c/IVsa8IbT+RhDF459Rs7hTcN0DMrdTpSVW7e5KxJlzL1iy0C195p781p3Ayg8ZH1Azj1bLDtzKZpq7++6lJJPt3svb65V1Q+X3VKguHmn9VcvbiVMP5M656ke7dcZ88c7nHIBfmnllwKfyK9NAwKZENP8ohdatpomJecviAH/XAp7+tf+F0feP+ksWjhEUcBADXvApAY5GcrK/1e1AdmWhLEnzOV5LrnUwtMnFW8LNWNmkTxDKWTfQgrb76awMmZ4bDHoBYcf/RIwsoRU7egaVZyTFVyQO501TAR29x1zgSU+nJD/ME7fHjE9yBIKmjxkauQWUDCDi4f1pN7eb27jMxfDywttQPuwlAUR2JCpI/yqar+WwaD+I2KXlDrxb3ZHu0Ifa00vL9xnY3VN3pLPTFgWC7in04FkNI="
